@@ -12,5 +12,11 @@ namespace ProntoMobile.Web.Data
 
         public DbSet<Usuario> Usuarios { get; set; }
 
+        public DbSet<Base> Bases { get; set; }
+
+        public DbSet<DetalleUserBD> DetalleUserBDs { get; set; }
+
+        public DbSet<Manager> Managers { get; set; }
+
     }
 }

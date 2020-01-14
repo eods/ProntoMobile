@@ -33,5 +33,22 @@ namespace ProntoMobile.Web.Helpers
             return list;
         }
 
+        public IEnumerable<SelectListItem> GetComboBases()
+        {
+            var list = _dataContext.Bases.Select(p => new SelectListItem
+            {
+                Text = p.Descripcion,
+                Value = p.IdBD.ToString()
+            }).OrderBy(p => p.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccione una base...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
     }
 }

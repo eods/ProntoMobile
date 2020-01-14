@@ -7,5 +7,6 @@ namespace ProntoMobile.Web.Helpers
     {
         IEnumerable<SelectListItem> GetComboUsuarios();
 
+        IEnumerable<SelectListItem> GetComboBases();
     }
 }

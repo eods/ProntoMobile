@@ -1,14 +1,14 @@
 ﻿@model ProntoMobile.Web.Data.Entities.Usuario
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
 
-<h2>Owner</h2>
+<h2>Usuario</h2>
 
 <div>
-    <h4>Details</h4>
+    <h4>Detalles</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -42,19 +42,22 @@
             @Html.DisplayFor(model => model.User.PhoneNumber)
         </dd>
         <dt>
-            # Pets
+            # Bases
         </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DetalleUserBDs.Count)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-    <a asp-action="AddPet" asp-route-id="@Model.Id" class="btn btn-primary">Add Pet</a>
-    <a asp-action="Index" class="btn btn-success">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+    <a asp-action="AddBD" asp-route-id="@Model.Id" class="btn btn-primary">Agregar base</a>
+    <a asp-action="Index" class="btn btn-success">Volver a la lista</a>
 </div>
-@*<h4>Pets</h4>
-@if (Model.Pets.Count == 0)
+<h4>Bases</h4>
+@if (Model.DetalleUserBDs.Count == 0)
 {
-    <h5>Not pets added yet.</h5>
+    <h5>No tiene bases asignadas.</h5>
 }
 else
 {
@@ -62,61 +65,40 @@ else
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Name)
+                    @Html.DisplayNameFor(model => model.DetalleUserBDs.FirstOrDefault().Base.Descripcion)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().ImageUrl)
+                    @Html.DisplayNameFor(model => model.DetalleUserBDs.FirstOrDefault().Base.Sistema)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Race)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Born)
-                </th>
-                <th>
-                    # Histories
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Remarks)
+                    @Html.DisplayNameFor(model => model.DetalleUserBDs.FirstOrDefault().Base.StringConection)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Pets)
+            @foreach (var item in Model.DetalleUserBDs)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(item.ImageUrl))
-                        {
-                            <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Race)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BornLocal)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Histories.Count)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Remarks)
-                    </td>
-                    <td>
-                        <a asp-action="EditPet" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                        <a asp-action="DetailsPet" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                        <a asp-action="DeletePet" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Base.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Base.Sistema)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Base.StringConection)
+                </td>
+                <td>
+                    <a asp-action="EditBD" asp-route-id="@item.IdBD" class="btn btn-warning">Edit</a>
+                    <a asp-action="DetailsBD" asp-route-id="@item.IdBD" class="btn btn-info">Details</a>
+                    <a asp-action="DeleteBD" asp-route-id="@item.IdBD" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
-}*@
+}
 
 <partial name="_DeleteDialog" />
 
@@ -124,17 +106,17 @@ else
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script type="text/javascript">
-    	$(document).ready(function () {
-        	// Delete item
-        	var item_to_delete;
+        $(document).ready(function () {
+            // Delete item
+            var item_to_delete;
 
-        	$('.deleteItem').click((e) => {
-            	item_to_delete = e.currentTarget.dataset.id;
-        	});
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
 
-        	$("#btnYesDelete").click(function () {
-            	window.location.href = '/Owners/DeletePet/' + item_to_delete;
-        	});
-    	});
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Usuarios/DeleteBD/' + item_to_delete;
+            });
+        });
     </script>
 }
