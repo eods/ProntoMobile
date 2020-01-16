@@ -81,9 +81,9 @@ namespace ProntoMobile.Web.Controllers
                     token = myToken
                 }, protocol: HttpContext.Request.Scheme);
 
-                _mailHelper.SendMail(view.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                    $"To allow the user, " +
-                    $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                _mailHelper.SendMail(view.Username, "Pronto Mobile Confirmacion de Email", $"<h1>Pronto Mobile Confirmacion de Email</h1>" +
+                    $"Para ser habilitado como administrador, " +
+                    $"Por favor haga click en el siguiente link:</br></br><a href = \"{tokenLink}\">Confirmar Email</a>");
 
                 return RedirectToAction(nameof(Index));
             }

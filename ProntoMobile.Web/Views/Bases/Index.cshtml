@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProntoMobile.Web.Data.Entities.Manager>
+﻿@model IEnumerable<ProntoMobile.Web.Data.Entities.Base>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,36 +8,30 @@
 <br />
 
 <p>
-    <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Nuevo Administrador</a>
+    <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Nueva Base</a>
 </p>
 
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Administradores</h3>
+                <h3 class="panel-title">Bases</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-responsive table-striped" id="MyTable">
                     <thead>
                         <tr>
                             <th>
-                                Documento
+                                Descripcion
                             </th>
                             <th>
-                                Nombre
+                                Sistema
                             </th>
                             <th>
-                                Apellido
+                                ServidorSQL
                             </th>
                             <th>
-                                Direccion
-                            </th>
-                            <th>
-                                Email
-                            </th>
-                            <th>
-                                Telefono
+                                StringConection
                             </th>
                             <th></th>
                         </tr>
@@ -47,27 +41,20 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User.Document)
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                                    @Html.DisplayFor(modelItem => item.Sistema)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User.LastName)
+                                    @Html.DisplayFor(modelItem => item.ServidorSQL)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User.Address)
+                                    @Html.DisplayFor(modelItem => item.StringConection)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User.Email)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.User.PhoneNumber)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                    <a asp-action="Details" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-list"> </i> </a>
-                                    <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i></button>
+                                    <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.IdBD"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                    <button data-id="@item.IdBD" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i></button>
                                 </td>
                             </tr>
                         }
@@ -104,19 +91,19 @@
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
-    	$(document).ready(function () {
-        	$('#MyTable').DataTable();
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
 
-        	// Delete item
-        	var item_to_delete;
+            // Delete item
+            var item_to_delete;
 
-        	$('.deleteItem').click((e) => {
-            	item_to_delete = e.currentTarget.dataset.id;
-        	});
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
 
-        	$("#btnYesDelete").click(function () {
-            	window.location.href = '/Managers/Delete/' + item_to_delete;
-        	});
-    	});
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Bases/Delete/' + item_to_delete;
+            });
+        });
     </script>
 }

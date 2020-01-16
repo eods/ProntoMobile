@@ -34,7 +34,8 @@
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <li><a asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
-                        <li><a asp-area="" asp-controller="Managers" asp-action="Index">Managers</a></li>
+                        <li><a asp-area="" asp-controller="Managers" asp-action="Index">Administradores</a></li>
+                        <li><a asp-area="" asp-controller="Bases" asp-action="Index">Bases</a></li>
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

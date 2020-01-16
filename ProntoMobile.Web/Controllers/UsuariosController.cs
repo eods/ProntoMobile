@@ -387,33 +387,26 @@ namespace ProntoMobile.Web.Controllers
         //    return View(pet);
         //}
 
-        //public async Task<IActionResult> DeletePet(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> DeleteBD(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var pet = await _context.Pets
-        //        .Include(p => p.Owner)
-        //        .Include(p => p.Histories)
-        //        .FirstOrDefaultAsync(p => p.Id == id.Value);
+            var det = await _context.DetalleUserBDs
+                .Include(p => p.Usuario)
+                .FirstOrDefaultAsync(p => p.IdDetalleUserBD == id.Value);
 
-        //    if (pet == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (det == null)
+            {
+                return NotFound();
+            }
 
-        //    if (pet.Histories.Count > 0)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "The pet can't be deleted because it as related records");
-        //        return RedirectToAction($"{nameof(Details)}/{pet.Owner.Id}");
-        //    }
-
-        //    _context.Pets.Remove(pet);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction($"{nameof(Details)}/{pet.Owner.Id}");
-        //}
+            _context.DetalleUserBDs.Remove(det);
+            await _context.SaveChangesAsync();
+            return RedirectToAction($"{nameof(Details)}/{det.Usuario.Id}");
+        }
 
     }
 }

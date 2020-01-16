@@ -12,31 +12,31 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.User.Document)
+            Documento
         </dt>
         <dd>
             @Html.DisplayFor(model => model.User.Document)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            Nombre
         </dt>
         <dd>
             @Html.DisplayFor(model => model.User.FirstName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User.LastName)
+            Apellido
         </dt>
         <dd>
             @Html.DisplayFor(model => model.User.LastName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
+            Email
         </dt>
         <dd>
             @Html.DisplayFor(model => model.User.Email)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User.PhoneNumber)
+            Telefono
         </dt>
         <dd>
             @Html.DisplayFor(model => model.User.PhoneNumber)
@@ -65,14 +65,14 @@ else
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.DetalleUserBDs.FirstOrDefault().Base.Descripcion)
+                    Descripcion
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DetalleUserBDs.FirstOrDefault().Base.Sistema)
+                    Sistema
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DetalleUserBDs.FirstOrDefault().Base.StringConection)
-                </th>
+                @*<th>
+                    String de conexion
+                </th>*@
                 <th></th>
             </tr>
         </thead>
@@ -86,13 +86,13 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.Base.Sistema)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Base.StringConection)
-                </td>
+                </td>*@
                 <td>
-                    <a asp-action="EditBD" asp-route-id="@item.IdBD" class="btn btn-warning">Edit</a>
-                    <a asp-action="DetailsBD" asp-route-id="@item.IdBD" class="btn btn-info">Details</a>
-                    <a asp-action="DeleteBD" asp-route-id="@item.IdBD" class="btn btn-danger">Delete</a>
+                    @*<a asp-action="EditBD" asp-route-id="@item.IdBD" class="btn btn-warning">Edit</a>
+                    <a asp-action="DetailsBD" asp-route-id="@item.IdBD" class="btn btn-info">Details</a>*@
+                    <a asp-action="DeleteBD" asp-route-id="@item.IdDetalleUserBD" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
             }

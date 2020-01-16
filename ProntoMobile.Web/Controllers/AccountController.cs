@@ -168,7 +168,7 @@ namespace ProntoMobile.Web.Controllers
                     token = myToken
                 }, protocol: HttpContext.Request.Scheme);
 
-                _mailHelper.SendMail(model.Username, "Pronto Mobile Confirmacion de Email confirmation", $"<h1>Pronto Mobile Confirmacion de Email</h1>" +
+                _mailHelper.SendMail(model.Username, "Pronto Mobile Confirmacion de Email", $"<h1>Pronto Mobile Confirmacion de Email</h1>" +
                     $"Para ser habilitado como usuario, " +
                     $"Por favor haga click en el siguiente link:</br></br><a href = \"{tokenLink}\">Confirmar Email</a>");
 
@@ -242,14 +242,14 @@ namespace ProntoMobile.Web.Controllers
             }
 
             var newUser = await _userHelper.GetUserByEmailAsync(model.Username);
-            if (model.Username == "pronto@yopmail.com")
-            {
-                await _userHelper.AddUserToRoleAsync(newUser, "Admin");
-            }
-            else
-            {
-                await _userHelper.AddUserToRoleAsync(newUser, "Customer");
-            }
+            //if (model.Username == "pronto@yopmail.com")
+            //{
+            //    await _userHelper.AddUserToRoleAsync(newUser, "Admin");
+            //}
+            //else
+            //{
+                await _userHelper.AddUserToRoleAsync(newUser, "User");
+            //}
             return newUser;
         }
 

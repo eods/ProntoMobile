@@ -8,7 +8,7 @@
 <br />
 
 <p>
-    <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>Nuevo Usuario</a>
+    <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Nuevo Usuario</a>
 </p>
 
 <div class="row">
@@ -22,28 +22,22 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Document)
+                                Documento
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.FirstName)
+                                Nombre
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.LastName)
+                                Apellido
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Address)
+                                Direccion
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Email)
+                                Email
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.PhoneNumber)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Latitude)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Longitude)
+                                Telefono
                             </th>
                             <th>
                                 Bases
@@ -72,12 +66,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.User.PhoneNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.Latitude)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.Longitude)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.DetalleUserBDs.Count)

@@ -14,7 +14,9 @@ namespace ProntoMobile.Web.Models
         [Required]
         public int UserId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Display(Name = "Base de datos")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a base de datos.")]
         public int IdBD { get; set; }
 
         public IEnumerable<SelectListItem> Bases { get; set; }
