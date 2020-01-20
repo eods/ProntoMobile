@@ -375,7 +375,7 @@ namespace ProntoMobile.Web.Controllers
                     "ResetPassword",
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
-                _mailHelper.SendMail(model.Email, "MyVet Password Reset", $"<h1>MyVet Password Reset</h1>" +
+                _mailHelper.SendMail(model.Email, "Pronto Mobile Password Reset", $"<h1>Pronto Mobile Password Reset</h1>" +
                     $"To reset the password click in this link:</br></br>" +
                     $"<a href = \"{link}\">Reset Password</a>");
                 ViewBag.Message = "The instructions to recover your password has been sent to email.";

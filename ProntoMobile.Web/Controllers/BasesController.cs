@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ProntoMobile.Web.Data;
 using System.Collections.Generic;
 using ProntoMobile.Web.Data.Entities;
+using ProntoMobile.Common.Models;
 
 namespace ProntoMobile.Web.Controllers
 {
@@ -25,6 +26,31 @@ namespace ProntoMobile.Web.Controllers
         // GET: ServiceTypes
         public async Task<IActionResult> Index()
         {
+            //var user = await _context.Usuarios
+            //    .Include(o => o.User)
+            //    .Include(o => o.DetalleUserBDs)
+            //    .ThenInclude(p => p.Base)
+            //    .FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals("pronto@yopmail.com"));
+
+            //var response = new UserResponse
+            //{
+            //    Id = user.Id,
+            //    FirstName = user.User.FirstName,
+            //    LastName = user.User.LastName,
+            //    Address = user.User.Address,
+            //    Document = user.User.Document,
+            //    Email = user.User.Email,
+            //    PhoneNumber = user.User.PhoneNumber,
+            //    DetalleUserBDs = user.DetalleUserBDs.Select(p => new DetalleUserBDResponse
+            //    {
+            //        IdDetalleUserBD = p.IdDetalleUserBD,
+            //        UserId = p.UserId,
+            //        IdBD = p.IdBD,
+            //        Base = p.Base.Descripcion
+            //    }).ToList()
+            //};
+
+
             return View(await _context.Bases.ToListAsync());
         }
 
