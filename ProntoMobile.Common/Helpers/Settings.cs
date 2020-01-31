@@ -1,5 +1,7 @@
-﻿using Plugin.Settings;
+﻿using Newtonsoft.Json;
+using Plugin.Settings;
 using Plugin.Settings.Abstractions;
+using ProntoMobile.Common.Models;
 
 namespace ProntoMobile.Common.Helpers
 {
@@ -10,6 +12,8 @@ namespace ProntoMobile.Common.Helpers
         private const string _token = "Token";
         private const string _isRemembered = "IsRemembered";
         private const string _connectionString = "ConnectionString";
+        private const string _basePronto = "BasePronto";
+        private const string _baseMantenimiento = "BaseMantenimiento";
 
         private static readonly string _stringDefault = string.Empty;
         private static readonly bool _boolDefault = false;
@@ -34,6 +38,11 @@ namespace ProntoMobile.Common.Helpers
             set => AppSettings.AddOrUpdateValue(_token, value);
         }
 
+        public static TokenResponse Token2
+        {
+            get => JsonConvert.DeserializeObject<TokenResponse>(AppSettings.GetValueOrDefault(Token, _stringDefault));
+        }
+
         public static bool IsRemembered
         {
             get => AppSettings.GetValueOrDefault(_isRemembered, _boolDefault);
@@ -45,5 +54,19 @@ namespace ProntoMobile.Common.Helpers
             get => AppSettings.GetValueOrDefault(_connectionString, _stringDefault);
             set => AppSettings.AddOrUpdateValue(_connectionString, value);
         }
+
+        public static string BasePronto
+        {
+            get => AppSettings.GetValueOrDefault(_basePronto, _stringDefault);
+            set => AppSettings.AddOrUpdateValue(_basePronto, value);
+        }
+
+
+        public static string BaseMantenimiento
+        {
+            get => AppSettings.GetValueOrDefault(_baseMantenimiento, _stringDefault);
+            set => AppSettings.AddOrUpdateValue(_baseMantenimiento, value);
+        }
+
     }
 }

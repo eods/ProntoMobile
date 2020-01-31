@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.BasesDatosPage"
+             Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+        <ScrollView>
+            <AbsoluteLayout>
+                <StackLayout
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="0"
+                	        Text="Base Pronto"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="0"
+                	        ItemDisplayBinding="{Binding Descripcion}"
+                	        ItemsSource="{Binding BasesPronto}"
+                	        SelectedItem="{Binding BasePronto}"
+                	        Title="Base Pronto"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="1"
+                	        Text="Base Mantenimiento"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="1"
+                	        ItemDisplayBinding="{Binding Descripcion}"
+                	        ItemsSource="{Binding BasesMantenimiento}"
+                	        SelectedItem="{Binding BaseMantenimiento}"
+                	        Title="Base Mantenimiento"/>
+                    </Grid>
+                </StackLayout>
+            </AbsoluteLayout>
+        </ScrollView>
+        <StackLayout
+            Orientation="Horizontal"
+            VerticalOptions="EndAndExpand">
+            <Button
+                Command="{Binding SaveCommand}"
+                IsEnabled="{Binding IsEnabled}"
+                Text="Registrar"/>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

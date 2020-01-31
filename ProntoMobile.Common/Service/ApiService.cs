@@ -63,11 +63,12 @@ namespace ProntoMobile.Common.Service
             string controller,
             string tokenType,
             string accessToken,
+            string dbname,
             string email)
         {
             try
             {
-                var request = new EmailRequest { Email = email };
+                var request = new EmailRequest { Email = email, DbName = dbname };
                 var requestString = JsonConvert.SerializeObject(request);
                 var content = new StringContent(requestString, Encoding.UTF8, "application/json");
                 var client = new HttpClient
@@ -111,7 +112,9 @@ namespace ProntoMobile.Common.Service
             string servicePrefix,
             string controller,
             string tokenType,
-            string accessToken)
+            string accessToken,
+            string dbname
+            )
         {
             try
             {
@@ -120,10 +123,13 @@ namespace ProntoMobile.Common.Service
                     BaseAddress = new Uri(urlBase),
                 };
 
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var request = new DbNameRequest { DbName = dbname };
+                var requestString = JsonConvert.SerializeObject(request);
+                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                 var url = $"{servicePrefix}{controller}";
-                var response = await client.GetAsync(url);
+                var response = await client.PostAsync(url, content);
                 var result = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
@@ -204,7 +210,8 @@ namespace ProntoMobile.Common.Service
             string controller,
             string tokenType,
             string accessToken,
-            IdRequest request)
+            string dbname,
+            int id)
         {
             try
             {
@@ -213,6 +220,7 @@ namespace ProntoMobile.Common.Service
                     BaseAddress = new Uri(urlBase),
                 };
 
+                var request = new IdRequest { Id = id, DbName = dbname };
                 var requestString = JsonConvert.SerializeObject(request);
                 var content = new StringContent(requestString, Encoding.UTF8, "application/json");
 
@@ -253,6 +261,7 @@ namespace ProntoMobile.Common.Service
             string controller,
             string tokenType,
             string accessToken,
+            string dbname,
             string email)
         {
             try
@@ -262,7 +271,7 @@ namespace ProntoMobile.Common.Service
                     BaseAddress = new Uri(urlBase),
                 };
 
-                var request = new EmailRequest { Email = email };
+                var request = new EmailRequest { Email = email, DbName = dbname };
                 var requestString = JsonConvert.SerializeObject(request);
                 var content = new StringContent(requestString, Encoding.UTF8, "application/json");
 
@@ -281,6 +290,57 @@ namespace ProntoMobile.Common.Service
                 }
 
                 var list = JsonConvert.DeserializeObject<List<T>>(result);
+                return new Response<object>
+                {
+                    IsSuccess = true,
+                    Result = list
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response<object>> GetByEmail2Async<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string tokenType,
+            string accessToken,
+            string dbname,
+            string email)
+        {
+            try
+            {
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase),
+                };
+
+                var request = new EmailRequest { Email = email, DbName = dbname };
+                var requestString = JsonConvert.SerializeObject(request);
+                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<object>
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                var list = JsonConvert.DeserializeObject<T>(result);
                 return new Response<object>
                 {
                     IsSuccess = true,
@@ -503,14 +563,64 @@ namespace ProntoMobile.Common.Service
             string urlBase,
             string servicePrefix,
             string controller,
-            T model,
             string tokenType,
-            string accessToken)
+            string accessToken,
+            string dbname,
+            int id)
         {
             try
             {
-                var request = JsonConvert.SerializeObject(model);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var request = new IdRequest { Id = id, DbName = dbname };
+                var requestString = JsonConvert.SerializeObject(request);
+                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<object>
+                    {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                var obj = JsonConvert.DeserializeObject<T>(answer);
+                return new Response<object>
+                {
+                    IsSuccess = true,
+                    Result = obj,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
+        public async Task<Response<object>> PostAsync<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string tokenType,
+            string accessToken,
+            string dbname,
+            T model)
+        {
+            try
+            {
+                var requestString = JsonConvert.SerializeObject(model);
+                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
                 var client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.FallasPage"
+             BackgroundColor="Silver"
+             Icon="ic_list.png"
+            Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_action_add_circle" Command="{Binding AddFallaCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout
+    	Padding="10">
+        <Grid
+            Margin="20,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label
+            	Grid.Column="0"
+            	FontAttributes="Bold"
+            	Text="Nro"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="1"
+            	FontAttributes="Bold"
+            	Text="Fecha"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="2"
+            	FontAttributes="Bold"
+            	Text="Descripcion"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="3"
+            	FontAttributes="Bold"
+            	Text="Fecha falla"
+            	VerticalOptions="Center"/>
+        </Grid>
+        <ListView
+        	HasUnevenRows="True"
+	        RefreshCommand="{Binding RefreshFallasCommand}"
+	        IsRefreshing="{Binding IsRefreshing}"
+        	ItemsSource="{Binding Fallas}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame                        	
+                            CornerRadius="20"
+                        	HasShadow="True"
+                        	Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectFallaCommand}"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label
+                            	    Grid.Column="0"
+                            	    Text="{Binding NumeroFalla}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                                	Grid.Column="1"
+                            	    Text="{Binding FechaAlta, StringFormat='{0:yyyy/MM/dd}'}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="2"
+                            	    Text="{Binding Descripcion}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                                	Grid.Column="3"
+                            	    Text="{Binding FechaFalla, StringFormat='{0:yyyy/MM/dd}'}"
+                            	    VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

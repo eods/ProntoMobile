@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProntoMobile.Common.Models;
 using ProntoMobile.Web.Data;
+using ProntoMobile.Web.Data.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,10 +16,17 @@ namespace ProntoMobile.Web.Controllers.API
     public class UsuariosController : ControllerBase
     {
         private readonly DataContext _dataContext;
+        private readonly DataContextMANT _dataContextMANT;
+        private readonly DataContextERP _dataContextERP;
 
-        public UsuariosController(DataContext dataContext)
+        public UsuariosController(
+            DataContext dataContext,
+            DataContextMANT dataContextMANT,
+            DataContextERP dataContextERP)
         {
             _dataContext = dataContext;
+            _dataContextMANT = dataContextMANT;
+            _dataContextERP = dataContextERP;
         }
 
         [HttpPost]
@@ -60,5 +68,41 @@ namespace ProntoMobile.Web.Controllers.API
 
             return Ok(response);
         }
+
+        [HttpPost]
+        [Route("GetEmpleadoByUserEmail")]
+        public async Task<IActionResult> GetEmpleadoByUserEmail(EmailRequest emailRequest)
+        {
+            var database = _dataContext.Bases.Where(a => a.Descripcion.ToLower().Equals(emailRequest.DbName.ToLower())).FirstOrDefault();
+
+            Empleado empleado = null;
+            if (database.Sistema.ToUpper() == "MANTENIMIENTO")
+            {
+                empleado = _dataContextMANT.Empleados.Where(a => a.Email.ToLower().Equals(emailRequest.Email.ToLower())).FirstOrDefault();
+            }
+            if (database.Sistema.ToUpper() == "ERP")
+            {
+                empleado = _dataContextERP.Empleados.Where(a => a.Email.ToLower().Equals(emailRequest.Email.ToLower())).FirstOrDefault();
+            }
+
+            if (empleado == null)
+            {
+                return BadRequest(new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = "Usuario inexistente"
+                });
+            }
+
+            var response = new EmpleadoResponse
+            {
+                IdEmpleado = empleado.IdEmpleado,
+                Nombre = empleado.Nombre,
+                UsuarioNT = empleado.UsuarioNT
+            };
+
+            return Ok(response);
+        }
+
     }
 }

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.PrincipalPage"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_action_cloud_upload" Command="{Binding BasesDatosCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout
+        Padding="10">
+        <ScrollView>
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ffimageloading:CachedImage
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Aspect="AspectFit"
+                        Source="PartesDiarios.png"
+                        LoadingPlaceholder= "LoaderImage"
+                        ErrorPlaceholder= "ErrorImage"
+                        CacheDuration= "50"
+                        RetryCount= "3"
+                        RetryDelay= "600"
+                        DownsampleToViewSize = "true"
+                        HeightRequest="200"
+                        WidthRequest="200">
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PartesDiariosCommand}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Partes diarios"
+                        VerticalOptions="Center"/>
+
+                    <ffimageloading:CachedImage
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Aspect="AspectFit"
+                        Source="Firmas.png"
+                        LoadingPlaceholder= "LoaderImage"
+                        ErrorPlaceholder= "ErrorImage"
+                        CacheDuration= "50"
+                        RetryCount= "3"
+                        RetryDelay= "600"
+                        DownsampleToViewSize = "true"
+                        HeightRequest="200"
+                        WidthRequest="200">
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding FirmasCommand}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    <Label
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Firma de documentos"
+                        VerticalOptions="Center"/>
+
+                    <ffimageloading:CachedImage
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        Aspect="AspectFit"
+                        Source="FondosFijos.png"
+                        LoadingPlaceholder= "LoaderImage"
+                        ErrorPlaceholder= "ErrorImage"
+                        CacheDuration= "50"
+                        RetryCount= "3"
+                        RetryDelay= "600"
+                        DownsampleToViewSize = "true"
+                        HeightRequest="200"
+                        WidthRequest="300">
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding FondosFijosCommand}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    <Label
+                        Grid.Column="0"
+                        Grid.Row="3"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Fondos fijos"
+                        VerticalOptions="Center"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+
+</ContentPage>

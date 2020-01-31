@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.EquipmentsPage"
+             Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+        <SearchBar 
+            Text="{Binding SelectedFilter}"
+            />
+        <ListView
+            HasUnevenRows="True"
+	        SeparatorVisibility="None"
+	        IsPullToRefreshEnabled="True"
+	        RefreshCommand="{Binding RefreshEquipmentsCommand}"
+	        IsRefreshing="{Binding IsRefreshing}"
+        	ItemsSource="{Binding Equipments}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame
+                        	CornerRadius="10"
+                        	HasShadow="True"
+                        	Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectEquipmentCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width=".2*"/>
+                                </Grid.ColumnDefinitions>
+                                <ffimageloading:CachedImage
+	                                Grid.Column="0"
+	                                Source="{Binding ImageUrl}"
+	                                LoadingPlaceholder= "LoaderImage"
+	                                ErrorPlaceholder= "ErrorImage"
+	                                CacheDuration= "50"
+	                                RetryCount= "3"
+	                                RetryDelay= "600"
+	                                DownsampleToViewSize = "true"
+	                                WidthRequest="100"/>
+                                <Grid
+                                	Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                    	Grid.Column="0"
+                                    	Grid.Row="0"
+                                    	Text="Equipo"/>
+                                    <Label
+                                    	Grid.Column="1"
+                                    	Grid.Row="0"
+                                    	FontAttributes="Bold"
+                                    	Text="{Binding Descripcion}"/>
+                                    <Label
+                                    	Grid.Column="0"
+                                    	Grid.Row="1"
+                                    	Text="Codigo"/>
+                                    <Label
+                                    	Grid.Column="1"
+                                    	Grid.Row="1"
+                                    	FontAttributes="Bold"
+                                    	Text="{Binding Codigo}"/>
+                                    <Label
+                                    	Grid.Column="0"
+                                    	Grid.Row="2"
+                                    	Text="Ultima lectura"/>
+                                    <Label
+                                    	Grid.Column="1"
+                                    	Grid.Row="2"
+                                    	FontAttributes="Bold"
+                                    	Text="{Binding UltimaLectura}"/>
+                                    <Label
+                                    	Grid.Column="0"
+                                    	Grid.Row="3"
+                                    	Text="Fecha"/>
+                                    <Label
+                                    	Grid.Column="1"
+                                    	Grid.Row="3"
+                                    	FontAttributes="Bold"
+                                    	Text="{Binding FechaUltimaLectura, StringFormat='{0:yyyy/MM/dd}'}"/>
+                                </Grid>
+                                <Image
+                                    Grid.Column="2"
+                                	Source="ic_chevron_right">
+                                </Image>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

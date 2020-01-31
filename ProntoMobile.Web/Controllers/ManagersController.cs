@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,21 +16,30 @@ namespace ProntoMobile.Web.Controllers
     public class ManagersController : Controller
     {
         private readonly DataContext _dataContext;
+        private readonly DataContext _dataContext2;
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ManagersController(
             DataContext dataContext,
+            DataContext dataContext2,
             IUserHelper userHelper,
-            IMailHelper mailHelper)
+            IMailHelper mailHelper,
+            IHttpContextAccessor httpContextAccessor)
         {
             _dataContext = dataContext;
+            _dataContext2 = dataContext2;
             _userHelper = userHelper;
             _mailHelper = mailHelper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult Index()
         {
+            //_httpContextAccessor.HttpContext.Session.SetString("String_Mantenimiento", "Server=SQLMVC;Database=ProntoMantenimiento_Marcalba;Persist Security Info=False;User ID=sa; Password=.SistemaPronto.;MultipleActiveResultSets=true");
+            //var empleado1 = _dataContext2.Empleados.ToList();
+
             return View(_dataContext.Managers.Include(m => m.User));
         }
 

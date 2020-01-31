@@ -22,5 +22,7 @@ namespace ProntoMobile.Common.Models
         public string ImageUrl { get; set; }
 
         public ICollection<DetalleParteDiarioResponse> DetallePartesDiarios { get; set; }
+
+        public ICollection<FallaResponse> Fallas { get; set; }
     }
 }

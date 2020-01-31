@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.FirmasPage"
+             BackgroundColor="Silver"
+             Icon="ic_list.png"
+             Title="{Binding Title}">
+
+    <StackLayout
+    	Padding="10">
+        <SearchBar 
+            Text="{Binding SelectedFilter}"
+            />
+        <Grid
+            Margin="20,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label
+            	Grid.Column="0"
+            	FontAttributes="Bold"
+            	Text="Proveedor"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="1"
+            	FontAttributes="Bold"
+            	Text="Tipo"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="2"
+            	FontAttributes="Bold"
+            	Text="Numero"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="3"
+            	FontAttributes="Bold"
+            	Text="N*"
+            	VerticalOptions="Center"/>
+        </Grid>
+        <ListView
+            BackgroundColor="Transparent"
+        	HasUnevenRows="True"
+	        RefreshCommand="{Binding RefreshFirmasCommand}"
+	        IsRefreshing="{Binding IsRefreshing}"
+        	ItemsSource="{Binding Firmas}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame                        	
+                            CornerRadius="20"
+                        	HasShadow="True"
+                        	Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectFirmaCommand}"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="0.3*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label
+                            	    Grid.Column="0"
+                            	    Text="{Binding Proveedor}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="1"
+                            	    Text="{Binding TipoComprobanteAb}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="2"
+                            	    Text="{Binding Numero}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="3"
+                            	    Text="{Binding OrdenAutorizacion}"
+                            	    VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

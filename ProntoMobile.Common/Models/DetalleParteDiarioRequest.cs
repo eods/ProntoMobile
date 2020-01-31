@@ -21,5 +21,7 @@ namespace ProntoMobile.Common.Models
         public decimal? HorasProductivas { get; set; }
 
         public decimal? HorasNoProductivas { get; set; }
+
+        public string DbName { get; set; }
     }
 }

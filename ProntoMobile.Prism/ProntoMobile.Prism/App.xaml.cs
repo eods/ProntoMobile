@@ -30,16 +30,19 @@ namespace ProntoMobile.Prism
 
             InitializeComponent();
 
-            //var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            //if (Settings.IsRemembered && token?.Expiration > DateTime.Now)
-            //{
-            //    await NavigationService.NavigateAsync("/ProntoMobileMasterDetailPage/NavigationPage/PrincipalPage");
-            //}
-            //else
-            //{
-            //    await NavigationService.NavigateAsync("NavigationPage/LoginPage");
-            //}
-            await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            //var token = Settings.Token2;
+
+            var token0 = Settings.Token;
+            var token2 = JsonConvert.DeserializeObject<TokenResponse>(token0);
+            var user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+            if (user != null && Settings.IsRemembered && token2?.Expiration > DateTime.Now)
+            {
+                await NavigationService.NavigateAsync("/ProntoMobileMasterDetailPage/NavigationPage/PrincipalPage");
+            }
+            else
+            {
+                await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -49,6 +52,24 @@ namespace ProntoMobile.Prism
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<ProntoMobileMasterDetailPage, ProntoMobileMasterDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<PrincipalPage, PrincipalPageViewModel>();
+            containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
+            containerRegistry.RegisterForNavigation<RememberPasswordPage, RememberPasswordPageViewModel>();
+            containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
+            containerRegistry.RegisterForNavigation<PartesDiariosPage, PartesDiariosPageViewModel>();
+            containerRegistry.RegisterForNavigation<ParteDiarioPage, ParteDiarioPageViewModel>();
+            containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+            containerRegistry.RegisterForNavigation<FirmasPage, FirmasPageViewModel>();
+            containerRegistry.RegisterForNavigation<FirmaPage, FirmaPageViewModel>();
+            containerRegistry.RegisterForNavigation<EquipmentTabbedPage, EquipmentTabbedPageViewModel>();
+            containerRegistry.RegisterForNavigation<EquipmentsPage, EquipmentsPageViewModel>();
+            containerRegistry.RegisterForNavigation<EquipmentPage, EquipmentPageViewModel>();
+            containerRegistry.RegisterForNavigation<EditEquipmentPage, EditEquipmentPageViewModel>();
+            containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
+            containerRegistry.RegisterForNavigation<BasesDatosPage, BasesDatosPageViewModel>();
+            containerRegistry.RegisterForNavigation<FallasPage, FallasPageViewModel>();
+            containerRegistry.RegisterForNavigation<FallaPage, FallaPageViewModel>();
         }
     }
 }

@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.FirmaPage"
+         	Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+        <ScrollView>
+            <AbsoluteLayout>
+                <StackLayout
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All">
+                    <Grid
+                        Margin="0,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="0"
+                	        Text="Proveedor"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="1"
+                	        Grid.Row="0"
+                            FontAttributes="Bold"
+                	        Text="{Binding Firma.Proveedor}"/>
+                    </Grid>
+                    <Grid
+                        Margin="0,0,0,0"
+                        >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="0"
+                	        Text="Tipo"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="1"
+                	        Grid.Row="0"
+                            FontAttributes="Bold"
+                	        Text="{Binding Firma.TipoComprobante}"/>
+                        <Label
+                	        Grid.Column="2"
+                	        Grid.Row="0"
+                	        Text="Numero"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="4"
+                	        Grid.Row="0"
+                            FontAttributes="Bold"
+                	        Text="{Binding Firma.Numero}"/>
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="1"
+                	        Text="Fecha"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="1"
+                	        Grid.Row="1"
+                            FontAttributes="Bold"
+                            Text="{Binding Firma.Fecha, StringFormat='{0:yyyy/MM/dd}'}"/>
+                        <Label
+                	        Grid.Column="2"
+                	        Grid.Row="1"
+                	        Text="Importe"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="3"
+                	        Grid.Row="1"
+                            FontAttributes="Bold"
+                            Text="{Binding Firma.Moneda}"/>
+                        <Label
+                	        Grid.Column="4"
+                	        Grid.Row="1"
+                            FontAttributes="Bold"
+                            Text="{Binding Firma.ImporteTotal, StringFormat='{0:N2}'}"/>
+                    </Grid>
+                    <Grid
+                        Margin="0,0,0,0"
+                        Grid.Row="1"
+                        BackgroundColor="#0075c1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label
+            	            Grid.Column="0"
+            	            FontAttributes="Bold"
+                            TextColor="White"
+            	            Text="Detalle"
+            	            VerticalOptions="Center"/>
+                        <Label
+            	            Grid.Column="1"
+            	            FontAttributes="Bold"
+                            TextColor="White"
+            	            Text="Cant"
+                            HorizontalOptions="End"
+            	            VerticalOptions="Center"/>
+                        <Label
+            	            Grid.Column="2"
+            	            FontAttributes="Bold"
+                            TextColor="White"
+            	            Text="Precio"
+                            HorizontalOptions="End"
+            	            VerticalOptions="Center"/>
+                        <Label
+            	            Grid.Column="3"
+            	            FontAttributes="Bold"
+                            TextColor="White"
+            	            Text="Total"
+                            HorizontalOptions="End"
+            	            VerticalOptions="Center"/>
+
+                        <BoxView Grid.Row="1"
+                             Grid.ColumnSpan="4"
+                             HeightRequest="1"
+                             BackgroundColor="LightGray"/>
+                    </Grid>
+                    <ListView
+        	            HasUnevenRows="True"
+	                    RefreshCommand="{Binding RefreshFirmasCommand}"
+	                    IsRefreshing="{Binding IsRefreshing}"
+        	            ItemsSource="{Binding DetallesComprobante}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2.5*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Label
+                                	        Grid.Column="0"
+                            	            Text="{Binding Detalle}"
+                            	            VerticalOptions="Center"/>
+                                        <Label
+                            	            Grid.Column="1"
+                            	            Text="{Binding Cantidad, StringFormat='{0:0.00}'}"
+                                            HorizontalOptions="End"
+                            	            VerticalOptions="Center"/>
+                                        <Label
+                            	            Grid.Column="2"
+                            	            Text="{Binding Importe, StringFormat='{0:0.00}'}"
+                                            HorizontalOptions="End"
+                            	            VerticalOptions="Center"/>
+                                        <Label
+                            	            Grid.Column="3"
+                            	            Text="{Binding ImporteTotal, StringFormat='{0:0.00}'}"
+                                            HorizontalOptions="End"
+                            	            VerticalOptions="Center"/>
+
+                                        <BoxView Grid.Row="1"
+                                             Grid.ColumnSpan="4"
+                                             HeightRequest="1"
+                                             BackgroundColor="LightGray"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+                <busyindicator:SfBusyIndicator  
+                    AnimationType="Gear"
+                    AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="{StaticResource colorPrimaryDark}"
+                    HorizontalOptions="Center"
+                    TextColor="{StaticResource colorFontInverse}"
+                    IsVisible="{Binding IsRunning}"
+                    Title="Saving..."
+                    VerticalOptions="Center"
+                    ViewBoxWidth="80"
+                    ViewBoxHeight="80" />
+            </AbsoluteLayout>
+        </ScrollView>
+
+        <StackLayout
+            Orientation="Horizontal"
+            VerticalOptions="EndAndExpand">
+            <Button
+                Command="{Binding SignCommand}"
+                IsEnabled="{Binding IsEnabled}"
+                Text="Firmar"/>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

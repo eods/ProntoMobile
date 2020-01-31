@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using ProntoMobile.Web.Data;
 using ProntoMobile.Web.Data.Entities;
 using ProntoMobile.Web.Helpers;
+using System;
 using System.Text;
 
 namespace ProntoMobile.Web
@@ -85,8 +86,16 @@ namespace ProntoMobile.Web
             services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            services.AddMvc();
+            services.AddHttpContextAccessor();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,12 +117,16 @@ namespace ProntoMobile.Web
             app.UseAuthentication();
             app.UseCookiePolicy();
 
+            // IMPORTANT: This session call MUST go before UseMvc()
+            app.UseSession();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

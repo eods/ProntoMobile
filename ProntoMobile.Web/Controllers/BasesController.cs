@@ -1,55 +1,141 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using ProntoMobile.Common.Models;
+using ProntoMobile.Web.Data;
+using ProntoMobile.Web.Data.Entities;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using ProntoMobile.Web.Data;
-using System.Collections.Generic;
-using ProntoMobile.Web.Data.Entities;
-using ProntoMobile.Common.Models;
 
 namespace ProntoMobile.Web.Controllers
 {
     public class BasesController : Controller
     {
         private readonly DataContext _context;
+        private readonly DataContextMANT _context2;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public BasesController(
             DataContext context,
-            IConfiguration configuration)
+            DataContextMANT context2,
+            IConfiguration configuration,
+            IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _context2 = context2;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: ServiceTypes
         public async Task<IActionResult> Index()
         {
-            //var user = await _context.Usuarios
-            //    .Include(o => o.User)
-            //    .Include(o => o.DetalleUserBDs)
-            //    .ThenInclude(p => p.Base)
-            //    .FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals("pronto@yopmail.com"));
+            //_httpContextAccessor.HttpContext.Session.SetString("String_Mantenimiento", "Server=SQLMVC;Database=ProntoMantenimiento_VialAgro;Persist Security Info=False;User ID=sa; Password=.SistemaPronto.;MultipleActiveResultSets=true");
+            //var empleado1 = _context2.Empleados.ToList();
 
-            //var response = new UserResponse
+            //var a2 = _httpContextAccessor.HttpContext.Session.GetString("Test");
+
+            //var database = _context.Bases.Where(a => a.Descripcion.ToLower().Equals("marcalba - mantenimiento")).FirstOrDefault();
+            //HttpContext.Session.SetString("String_Mantenimiento", database.StringConection);
+
+            //var empleado = _context2.Empleados.Where(a => a.Email.ToLower().Equals("pronto@yopmail.com")).FirstOrDefault();
+            //var idObraAsignada = empleado?.IdObraAsignada ?? 0;
+
+            //var equipments = await _context2.Articulos
+            //                    .Include(a => a.DetallePartesDiarios)
+            //                    .ThenInclude(u => u.Unidad)
+            //                    .Include(a => a.DetallePartesDiarios)
+            //                    .ThenInclude(t => t.TipoHoraNoProductiva)
+            //                    .Include(a => a.Fallas)
+            //                    .Where(a => (a.ParaMantenimiento ?? "") == "SI" && (a.Activo ?? "") == "SI" && (idObraAsignada <= 0 || (a.IdObraActual ?? 0) == idObraAsignada))
+            //                    .OrderBy(a => a.Descripcion).ToListAsync();
+
+            //var response = new List<EquipmentResponse>();
+            //foreach (var equipment in equipments)
             //{
-            //    Id = user.Id,
-            //    FirstName = user.User.FirstName,
-            //    LastName = user.User.LastName,
-            //    Address = user.User.Address,
-            //    Document = user.User.Document,
-            //    Email = user.User.Email,
-            //    PhoneNumber = user.User.PhoneNumber,
-            //    DetalleUserBDs = user.DetalleUserBDs.Select(p => new DetalleUserBDResponse
+            //    var idunidad = equipment.IdUnidadLecturaMantenimiento ?? 0;
+            //    string unidad = "";
+            //    if (idunidad != 0)
             //    {
-            //        IdDetalleUserBD = p.IdDetalleUserBD,
-            //        UserId = p.UserId,
-            //        IdBD = p.IdBD,
-            //        Base = p.Base.Descripcion
-            //    }).ToList()
-            //};
+            //        unidad = _context2.Unidades.Where(a => a.IdUnidad == idunidad).FirstOrDefault().Descripcion;
+            //    }
 
+            //    var equipmentRespose = new EquipmentResponse
+            //    {
+            //        IdArticulo = equipment.IdArticulo,
+            //        Descripcion = equipment.Descripcion,
+            //        Codigo = equipment.Codigo,
+            //        FechaUltimaLectura = equipment.FechaUltimaLectura ?? DateTime.Today,
+            //        UltimaLectura = equipment.UltimaLectura ?? 0,
+            //        IdUnidadLecturaMantenimiento = idunidad,
+            //        Unidad = unidad,
+            //        //IdObraActual = equipment.IdObraActual ?? 0,
+            //        ImageUrl = equipment.ImageFullPath,
+            //        DetallePartesDiarios = equipment.DetallePartesDiarios?.Select(h => new DetalleParteDiarioResponse
+            //        {
+            //            IdDetalleParteDiario = h.IdDetalleParteDiario,
+            //            IdEquipo = h.IdEquipo,
+            //            FechaLectura = h.FechaLectura, // ?? DateTime.Today,
+            //            Lectura = h.Lectura,
+            //            IdUnidad = h.IdUnidad,
+            //            IdTipoHoraNoProductiva = h.IdTipoHoraNoProductiva ?? 0,
+            //            HorasProductivas = h.HorasProductivas ?? 0,
+            //            HorasNoProductivas = h.HorasNoProductivas ?? 0,
+            //            Unidad = h.Unidad.Descripcion,
+            //            UnidadAb = h.Unidad.Abreviatura,
+            //            TipoHoraNoProductiva = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Descripcion : ""),
+            //            TipoHoraNoProductivaAb = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Abreviatura : "")
+            //        }).Where(dp => dp.FechaLectura > DateTime.Today.AddYears(-1)).OrderByDescending(dp => dp.FechaLectura).ToList(),
+            //        Fallas = equipment.Fallas?.Select(h => new FallaResponse
+            //        {
+            //            IdFalla = h.IdFalla,
+            //            IdArticulo = h.IdArticulo,
+            //            Descripcion = h.Descripcion,
+            //            Anulada = h.Anulada,
+            //            FechaFalla = (h.FechaFalla != null ? h.FechaFalla : DateTime.Today),
+            //            Observaciones = h.Observaciones,
+            //            IdOrdenTrabajo = h.IdOrdenTrabajo ?? 0,
+            //            NumeroFalla = h.NumeroFalla ?? 0,
+            //            FechaAlta = (h.FechaAlta != null ? h.FechaAlta : DateTime.Today),
+            //            IdObra = h.IdObra ?? 0,
+            //            IdReporto = h.IdReporto ?? 0,
+            //            Maquinista = h.Maquinista,
+            //            Articulo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
+            //            Reporto = (h.Empleado != null ? h.Empleado.Nombre : "")
+            //        }).ToList()
+            //    };
+
+            //    response.Add(equipmentRespose);
+            //}
+
+            //var a = _context2.TiposHorasNoProductivas.OrderBy(u => u.Descripcion);
+
+
+            //var database = _context.Bases.Where(a => a.Descripcion.ToLower().Equals("marcalba - mantenimiento")).FirstOrDefault();
+            //HttpContext.Session.SetString("String_Mantenimiento", database.StringConection);
+
+            //int NumeroFalla = 0;
+
+            //SqlConnection cnn = new SqlConnection(database.StringConection);
+            //cnn.Open();
+
+            //SqlCommand command = new SqlCommand("Select * from Parametros where IdParametro=1", cnn);
+            //SqlDataReader reader = command.ExecuteReader();
+            //if (reader.Read())
+            //{
+            //    NumeroFalla = Int32.Parse(reader["ProximoNumeroFalla"].ToString());
+            //}
+            //reader.Close();
+
+            //SqlCommand cmd = new SqlCommand("Update Parametros Set ProximoNumeroFalla=IsNull(ProximoNumeroFalla,0) + 1 Where IdParametro=1", cnn);
+            //cmd.ExecuteNonQuery();
+            //cmd.Dispose();
+            //cnn.Close();
 
             return View(await _context.Bases.ToListAsync());
         }

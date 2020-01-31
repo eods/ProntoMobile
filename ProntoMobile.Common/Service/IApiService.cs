@@ -11,6 +11,7 @@ namespace ProntoMobile.Common.Service
             string controller,
             string tokenType,
             string accessToken,
+            string dbname,
             string email);
 
         Task<Response<object>> GetByEmailAsync<T>(
@@ -19,6 +20,16 @@ namespace ProntoMobile.Common.Service
             string controller,
             string tokenType,
             string accessToken,
+            string dbname,
+            string email);
+
+        Task<Response<object>> GetByEmail2Async<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string tokenType,
+            string accessToken,
+            string dbname,
             string email);
 
         Task<Response<TokenResponse>> GetTokenAsync(
@@ -62,7 +73,8 @@ namespace ProntoMobile.Common.Service
             string servicePrefix,
             string controller,
             string tokenType,
-            string accessToken);
+            string accessToken,
+            string dbname);
 
         Task<Response<object>> GetByIdAsync<T>(
             string urlBase,
@@ -78,15 +90,28 @@ namespace ProntoMobile.Common.Service
             string controller,
             string tokenType,
             string accessToken,
-            IdRequest request);
+            string dbname,
+            int id);
 
         Task<Response<object>> PostAsync<T>(
             string urlBase,
             string servicePrefix,
             string controller,
-            T model,
             string tokenType,
-            string accessToken);
+            string accessToken,
+            string dbname,
+            int id
+            );
+
+        Task<Response<object>> PostAsync<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string tokenType,
+            string accessToken,
+            string dbname,
+            T model
+            );
 
         Task<Response<object>> PutAsync<T>(
             string urlBase,

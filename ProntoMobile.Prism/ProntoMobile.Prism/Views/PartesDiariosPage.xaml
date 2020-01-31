@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.PartesDiariosPage"
+             BackgroundColor="Silver"
+             Icon="ic_list.png"
+            Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_action_add_circle" Command="{Binding AddParteDiarioCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout
+    	Padding="10">
+        <Grid
+            Margin="20,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label
+            	Grid.Column="0"
+            	FontAttributes="Bold"
+            	Text="Fecha"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="1"
+            	FontAttributes="Bold"
+            	Text="Lectura"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="2"
+            	FontAttributes="Bold"
+            	Text="Un"
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="3"
+            	FontAttributes="Bold"
+            	Text="Hs. Prd."
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="4"
+            	FontAttributes="Bold"
+            	Text="Hs. N/P."
+            	VerticalOptions="Center"/>
+            <Label
+            	Grid.Column="5"
+            	FontAttributes="Bold"
+            	Text="Tipo"
+            	VerticalOptions="Center"/>
+        </Grid>
+        <ListView
+        	HasUnevenRows="True"
+	        RefreshCommand="{Binding RefreshPartesDiariosCommand}"
+	        IsRefreshing="{Binding IsRefreshing}"
+        	ItemsSource="{Binding PartesDiarios}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame                        	
+                            CornerRadius="20"
+                        	HasShadow="True"
+                        	Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectParteDiarioCommand}"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                	Grid.Column="0"
+                            	    Text="{Binding FechaLectura, StringFormat='{0:yyyy/MM/dd}'}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="1"
+                            	    Text="{Binding Lectura}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="2"
+                            	    Text="{Binding UnidadAb}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="3"
+                            	    Text="{Binding HorasProductivas, StringFormat='{0:0.0#}'}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="4"
+                            	    Text="{Binding HorasNoProductivas, StringFormat='{0:0.0#}'}"
+                            	    VerticalOptions="Center"/>
+                                <Label
+                            	    Grid.Column="5"
+                            	    Text="{Binding TipoHoraNoProductivaAb}"
+                            	    VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

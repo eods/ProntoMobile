@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.ParteDiarioPage"
+         	Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+        <ScrollView>
+            <AbsoluteLayout>
+                <StackLayout
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="0"
+                	        Text="Fecha"
+                	        VerticalOptions="Center"/>
+                        <DatePicker
+                	        Grid.Column="1"
+                	        Grid.Row="0"
+                	        Date="{Binding ParteDiario.FechaLectura}"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="1"
+                	        Text="Lectura"
+                	        VerticalOptions="Center"/>
+                        <Entry
+                	        Grid.Column="1"
+                	        Grid.Row="1"
+                            Keyboard="Telephone"
+                	        Placeholder="Ultima lectura"
+                	        Text="{Binding ParteDiario.Lectura}"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="2"
+                	        Text="Unidad"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="2"
+                	        ItemDisplayBinding="{Binding Descripcion}"
+                	        ItemsSource="{Binding Unidades}"
+                	        SelectedItem="{Binding Unidad}"
+                	        Title="Unidades"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="3"
+                	        Text="Hs / Unidades"
+                	        VerticalOptions="Center"/>
+                        <Entry
+                	        Grid.Column="1"
+                	        Grid.Row="3"
+                            Keyboard="Telephone"
+                	        Placeholder="Horas productivas"
+                	        Text="{Binding ParteDiario.HorasProductivas}"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="4"
+                	        Text="Hs N/Productivas"
+                	        VerticalOptions="Center"/>
+                        <Entry
+                	        Grid.Column="1"
+                	        Grid.Row="4"
+                            Keyboard="Telephone"
+                	        Placeholder="Horas no productivas"
+                	        Text="{Binding ParteDiario.HorasNoProductivas}"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="5"
+                	        Text="Tipo hora n/prod"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="5"
+                	        ItemDisplayBinding="{Binding Descripcion}"
+                	        ItemsSource="{Binding TiposHorasNoProductivas}"
+                	        SelectedItem="{Binding TipoHoraNoProductiva}"
+                	        Title="Tipos horas no productivas"/>
+                    </Grid>
+
+                </StackLayout>
+
+                <busyindicator:SfBusyIndicator  
+                    AnimationType="Gear"
+                    AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="{StaticResource colorPrimaryDark}"
+                    HorizontalOptions="Center"
+                    TextColor="{StaticResource colorFontInverse}"
+                    IsVisible="{Binding IsRunning}"
+                    Title="Registrando..."
+                    VerticalOptions="Center"
+                    ViewBoxWidth="80"
+                    ViewBoxHeight="80" />
+
+            </AbsoluteLayout>
+        </ScrollView>
+        <StackLayout
+            Orientation="Horizontal"
+            VerticalOptions="EndAndExpand">
+
+            <Button
+                Command="{Binding SaveCommand}"
+                IsEnabled="{Binding IsEnabled}"
+                Text="Registrar"/>
+
+            <Button
+                Command="{Binding DeleteCommand}"
+                IsEnabled="{Binding IsEnabled}"
+                IsVisible="{Binding IsEdit}"
+                Style="{StaticResource dangerButton}"
+                Text="Eliminar"/>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

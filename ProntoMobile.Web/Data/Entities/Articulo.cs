@@ -40,5 +40,7 @@ namespace ProntoMobile.Web.Data.Entities
             : $"http://prontomobile.bdlconsultores.com.ar{ImageUrl.Substring(1)}";
 
         public ICollection<DetalleParteDiario> DetallePartesDiarios { get; set; }
+
+        public ICollection<Falla> Fallas { get; set; }
     }
 }

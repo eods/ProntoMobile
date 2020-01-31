@@ -115,6 +115,7 @@ namespace ProntoMobile.Prism.ViewModels
                 "/Usuarios/GetUserByEmail",
                 "bearer",
                 token.Token,
+                string.Empty,
                 Email);
 
             if (!response2.IsSuccess)

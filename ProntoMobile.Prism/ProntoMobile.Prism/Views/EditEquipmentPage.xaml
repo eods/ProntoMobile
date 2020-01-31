@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProntoMobile.Prism.Views.EditEquipmentPage"
+            Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+        <ScrollView>
+            <AbsoluteLayout>
+                <StackLayout
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    AbsoluteLayout.LayoutFlags="All">
+
+                    <ffimageloading:CachedImage
+                        Aspect="AspectFit"
+                        CacheDuration= "50"
+                        DownsampleToViewSize = "true"
+                        ErrorPlaceholder= "ErrorImage"
+                        HeightRequest="200"
+                        LoadingPlaceholder= "LoaderImage"
+                        RetryCount= "3"
+                        RetryDelay= "600"
+                        Source="{Binding ImageSource}">
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+
+                    <Label
+            	        FontSize="Micro"
+            	        HorizontalOptions="Center"
+            	        Text="ChangeImage"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="0"
+                	        Text="Equipo"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="1"
+                	        Grid.Row="0"
+                            FontAttributes="Bold"
+                	        Text="{Binding Equipment.Descripcion}"
+                            VerticalOptions="Center"/>
+                        <!--<Entry
+                	        Grid.Column="1"
+                	        Grid.Row="0"
+                	        Placeholder="Equipo"
+                	        Text="{Binding Equipment.Descripcion}"/>-->
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="1"
+                	        Text="Codigo"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="1"
+                	        Grid.Row="1"
+                            FontAttributes="Bold"
+                            Text="{Binding Equipment.Codigo}"
+                	        VerticalOptions="Center"/>
+                        <!--<Entry
+                	        Grid.Column="1"
+                	        Grid.Row="1"
+                	        Placeholder="Codigo"
+                	        Text="{Binding Equipment.Codigo}"/>-->
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="2"
+                	        Text="Ultima lectura"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="1"
+                	        Grid.Row="2"
+                            FontAttributes="Bold"
+                	        Text="{Binding Equipment.UltimaLectura}"
+                	        VerticalOptions="Center"/>
+                        <!--<Editor
+                	        Grid.Column="1"
+                	        Grid.Row="2"
+                	        Placeholder="Ultima lectura"
+                	        Text="{Binding Equipment.UltimaLectura}"/>-->
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="3"
+                	        Text="Fecha"
+                	        VerticalOptions="Center"/>
+                        <Label
+                	        Grid.Column="1"
+                	        Grid.Row="3"
+                            FontAttributes="Bold"
+                	        Text="{Binding Equipment.FechaUltimaLectura}"
+                	        VerticalOptions="Center"/>
+                        <!--<DatePicker
+                	        Grid.Column="1"
+                	        Grid.Row="3"
+                	        Date="{Binding Equipment.FechaUltimaLectura}"/>-->
+
+                        <!--<Label
+                	        Grid.Column="0"
+                	        Grid.Row="2"
+                	        Text="{i18n:Translate Work}"
+                	        VerticalOptions="Center"/>
+                        <Picker
+                	        Grid.Column="1"
+                	        Grid.Row="2"
+                	        ItemDisplayBinding="{Binding Descripcion}"
+                	        ItemsSource="{Binding Obras}"
+                	        SelectedItem="{Binding Obra}"
+                	        Title="{i18n:Translate PetTypePlaceHolder}"/>-->
+                    </Grid>
+
+                </StackLayout>
+
+                <busyindicator:SfBusyIndicator  
+                    AnimationType="Gear"
+                    AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                    AbsoluteLayout.LayoutFlags="All"
+                    BackgroundColor="{StaticResource colorPrimaryDark}"
+                    HorizontalOptions="Center"
+                    TextColor="{StaticResource colorFontInverse}"
+                    IsVisible="{Binding IsRunning}"
+                    Title="Saving"
+                    VerticalOptions="Center"
+                    ViewBoxWidth="80"
+                    ViewBoxHeight="80" />
+
+            </AbsoluteLayout>
+        </ScrollView>
+        <StackLayout
+            Orientation="Horizontal"
+            VerticalOptions="EndAndExpand">
+
+            <Button
+                Command="{Binding SaveCommand}"
+                IsEnabled="{Binding IsEnabled}"
+                Text="Registrar"/>
+
+            <!--<Button
+                Command="{Binding DeleteCommand}"
+                IsEnabled="{Binding IsEnabled}"
+                IsVisible="{Binding IsEdit}"
+                Style="{StaticResource dangerButton}"
+                Text="Eliminar"/>-->
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

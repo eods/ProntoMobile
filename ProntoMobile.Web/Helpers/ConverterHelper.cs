@@ -57,5 +57,28 @@ namespace ProntoMobile.Web.Helpers
                 IdTipoHoraNoProductiva = detalleParteDiario.IdTipoHoraNoProductiva
             };
         }
+
+        public FallaResponse ToFallaResponse(Falla falla)
+        {
+            if (falla == null)
+            {
+                return null;
+            }
+
+            return new FallaResponse
+            {
+                IdArticulo = falla.IdArticulo,
+                Descripcion = falla.Descripcion,
+                Anulada = falla.Anulada,
+                FechaFalla = falla.FechaFalla,
+                Observaciones = falla.Observaciones,
+                IdOrdenTrabajo = falla.IdOrdenTrabajo,
+                NumeroFalla = falla.NumeroFalla,
+                FechaAlta = falla.FechaAlta,
+                IdObra = falla.IdObra,
+                IdReporto = falla.IdReporto,
+                Maquinista = falla.Maquinista
+            };
+        }
     }
 }
