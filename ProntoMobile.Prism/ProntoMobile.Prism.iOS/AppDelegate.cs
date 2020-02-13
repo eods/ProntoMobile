@@ -2,6 +2,7 @@
 using Prism;
 using Prism.Ioc;
 using Syncfusion.SfBusyIndicator.XForms.iOS;
+using Syncfusion.SfNumericTextBox.XForms.iOS;
 using UIKit;
 
 
@@ -27,6 +28,9 @@ namespace ProntoMobile.Prism.iOS
 
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             new SfBusyIndicatorRenderer();
+            new SfNumericTextBoxRenderer();
+            Syncfusion.SfDataGrid.XForms.iOS.SfDataGridRenderer.Init();
+            Syncfusion.SfChart.XForms.iOS.Renderers.SfChartRenderer.Init();
 
             LoadApplication(new App(new iOSInitializer()));
 

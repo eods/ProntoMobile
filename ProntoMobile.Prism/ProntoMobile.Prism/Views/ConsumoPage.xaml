@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="ProntoMobile.Prism.Views.EditEquipmentPage"
-            Title="{Binding Title}">
+             x:Class="ProntoMobile.Prism.Views.ConsumoPage"
+             Title="{Binding Title}">
 
     <StackLayout
         Padding="10">
@@ -15,26 +16,6 @@
                 <StackLayout
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All">
-
-                    <ffimageloading:CachedImage
-                        Aspect="AspectFit"
-                        CacheDuration= "50"
-                        DownsampleToViewSize = "true"
-                        ErrorPlaceholder= "ErrorImage"
-                        HeightRequest="200"
-                        LoadingPlaceholder= "LoaderImage"
-                        RetryCount= "3"
-                        RetryDelay= "600"
-                        Source="{Binding ImageSource}">
-                        <ffimageloading:CachedImage.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
-                        </ffimageloading:CachedImage.GestureRecognizers>
-                    </ffimageloading:CachedImage>
-
-                    <Label
-            	        FontSize="Micro"
-            	        HorizontalOptions="Center"
-            	        Text="ChangeImage"/>
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -48,89 +29,80 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Label
                 	        Grid.Column="0"
                 	        Grid.Row="0"
-                	        Text="Equipo"
+                	        Text="Fecha consumo"
                 	        VerticalOptions="Center"/>
-                        <Label
+                        <DatePicker
                 	        Grid.Column="1"
                 	        Grid.Row="0"
-                            FontAttributes="Bold"
-                	        Text="{Binding Equipment.Descripcion}"
-                            VerticalOptions="Center"/>
-                        <!--<Entry
-                	        Grid.Column="1"
-                	        Grid.Row="0"
-                	        Placeholder="Equipo"
-                	        Text="{Binding Equipment.Descripcion}"/>-->
+                	        Date="{Binding Consumo.FechaConsumo}"/>
 
                         <Label
                 	        Grid.Column="0"
                 	        Grid.Row="1"
-                	        Text="Codigo"
+                	        Text="Descripcion"
                 	        VerticalOptions="Center"/>
-                        <Label
+                        <autocomplete:SfAutoComplete x:Name="autoComplete"
                 	        Grid.Column="1"
                 	        Grid.Row="1"
-                            FontAttributes="Bold"
-                            Text="{Binding Equipment.Codigo}"
-                	        VerticalOptions="Center"/>
+                            HeightRequest="40"
+                            DisplayMemberPath="Descripcion" 
+                            DataSource="{Binding Consumibles}"
+                            SelectedItem="{Binding Consumible}"
+                            Watermark="Buscar consumible..."/>
                         <!--<Entry
                 	        Grid.Column="1"
                 	        Grid.Row="1"
-                	        Placeholder="Codigo"
-                	        Text="{Binding Equipment.Codigo}"/>-->
+                	        Placeholder="Descripcion"
+                	        Text="{Binding Consumo.Consumible}"/>-->
 
                         <Label
                 	        Grid.Column="0"
                 	        Grid.Row="2"
-                	        Text="Ultima lectura"
+                	        Text="Cantidad"
                 	        VerticalOptions="Center"/>
-                        <Label
+                        <!--<Entry
                 	        Grid.Column="1"
                 	        Grid.Row="2"
-                            FontAttributes="Bold"
-                	        Text="{Binding Equipment.UltimaLectura}"
-                	        VerticalOptions="Center"/>
-                        <!--<Editor
-                	        Grid.Column="1"
+                            Keyboard="Telephone"
+                	        Placeholder="Cantidad"
+                	        Text="{Binding Consumo.Cantidad}"/>-->
+                        <syncfusion:SfNumericTextBox
+                            Grid.Column="1"
                 	        Grid.Row="2"
-                	        Placeholder="Ultima lectura"
-                	        Text="{Binding Equipment.UltimaLectura}"/>-->
-
+                            x:Name="numericTextBox" 
+                            FormatString="n" 
+                            ParserMode="Double"
+                            Value="{Binding Consumo.Cantidad}"/>
+                        
                         <Label
                 	        Grid.Column="0"
                 	        Grid.Row="3"
-                	        Text="Fecha"
-                	        VerticalOptions="Center"/>
-                        <Label
-                	        Grid.Column="1"
-                	        Grid.Row="3"
-                            FontAttributes="Bold"
-                	        Text="{Binding Equipment.FechaUltimaLectura}"
-                	        VerticalOptions="Center"/>
-                        <!--<DatePicker
-                	        Grid.Column="1"
-                	        Grid.Row="3"
-                	        Date="{Binding Equipment.FechaUltimaLectura}"/>-->
-
-                        <!--<Label
-                	        Grid.Column="0"
-                	        Grid.Row="2"
-                	        Text="{i18n:Translate Work}"
+                	        Text="Unidad"
                 	        VerticalOptions="Center"/>
                         <Picker
                 	        Grid.Column="1"
-                	        Grid.Row="2"
+                	        Grid.Row="3"
                 	        ItemDisplayBinding="{Binding Descripcion}"
-                	        ItemsSource="{Binding Obras}"
-                	        SelectedItem="{Binding Obra}"
-                	        Title="{i18n:Translate PetTypePlaceHolder}"/>-->
+                	        ItemsSource="{Binding Unidades}"
+                	        SelectedItem="{Binding Unidad}"
+                	        Title="Unidades"/>
+
+                        <Label
+                	        Grid.Column="0"
+                	        Grid.Row="4"
+                	        Text="Observaciones"
+                	        VerticalOptions="Center"/>
+                        <Editor
+                	        Grid.Column="1"
+                	        Grid.Row="4"
+                	        Placeholder="Observaciones"
+                	        HeightRequest="80"
+                	        Text="{Binding Consumo.Observaciones}"/>
                     </Grid>
 
                 </StackLayout>
@@ -143,7 +115,7 @@
                     HorizontalOptions="Center"
                     TextColor="{StaticResource colorFontInverse}"
                     IsVisible="{Binding IsRunning}"
-                    Title="Saving"
+                    Title="Registrando..."
                     VerticalOptions="Center"
                     ViewBoxWidth="80"
                     ViewBoxHeight="80" />
@@ -159,12 +131,12 @@
                 IsEnabled="{Binding IsEnabled}"
                 Text="Registrar"/>
 
-            <!--<Button
+            <Button
                 Command="{Binding DeleteCommand}"
                 IsEnabled="{Binding IsEnabled}"
                 IsVisible="{Binding IsEdit}"
                 Style="{StaticResource dangerButton}"
-                Text="Eliminar"/>-->
+                Text="Eliminar"/>
         </StackLayout>
     </StackLayout>
 

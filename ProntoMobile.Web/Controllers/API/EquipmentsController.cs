@@ -48,6 +48,12 @@ namespace ProntoMobile.Web.Controllers.API
                                 .Include(a => a.DetallePartesDiarios)
                                 .ThenInclude(t => t.TipoHoraNoProductiva)
                                 .Include(a => a.Fallas)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Consumible)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Unidad)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Consumo)
                                 .Where(a => (a.ParaMantenimiento ?? "") == "SI" && (a.Activo ?? "") == "SI")
                                 .OrderBy(a => a.Descripcion).ToListAsync();
 
@@ -104,7 +110,24 @@ namespace ProntoMobile.Web.Controllers.API
                         Articulo = h.Articulo.Descripcion,
                         Reporto = h.Empleado.Nombre
                         //TipoHoraNoProductivaAb = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Abreviatura : "")
-                    }).ToList()
+                    }).ToList(),
+                    DetalleConsumos = equipment.DetalleConsumos?.Select(h => new DetalleConsumoResponse
+                    {
+                        IdDetalleConsumo = h.IdDetalleConsumo,
+                        IdConsumo = h.IdConsumo,
+                        IdArticulo = h.IdArticulo,
+                        IdConsumible = h.IdConsumible,
+                        Cantidad = h.Cantidad,
+                        IdUnidadConsumible = h.IdUnidadConsumible,
+                        Costo = h.Costo,
+                        Observaciones = h.Observaciones,
+                        Equipo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
+                        Consumible = (h.Consumible != null ? h.Consumible.Descripcion : ""),
+                        Unidad = (h.Unidad != null ? h.Unidad.Descripcion : ""),
+                        UnidadAb = (h.Unidad != null ? h.Unidad.Abreviatura : ""),
+                        FechaConsumo = (h.Consumo != null ? h.Consumo.FechaConsumo : DateTime.Today),
+                        Consumo = (h.Consumo != null ? h.Consumo.NumeroConsumo.ToString() : "")
+                    }).Where(dp => dp.FechaConsumo > DateTime.Today.AddYears(-1)).OrderByDescending(dp => dp.FechaConsumo).ToList(),
                 };
 
                 response.Add(equipmentRespose);
@@ -129,6 +152,12 @@ namespace ProntoMobile.Web.Controllers.API
                                 .Include(a => a.DetallePartesDiarios)
                                 .ThenInclude(t => t.TipoHoraNoProductiva)
                                 .Include(a => a.Fallas)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Consumible)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Unidad)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Consumo)
                                 .Where(a => (a.ParaMantenimiento ?? "") == "SI" && (a.Activo ?? "") == "SI" && (idObraAsignada <= 0 || (a.IdObraActual ?? 0) == idObraAsignada))
                                 .OrderBy(a => a.Descripcion).ToListAsync();
 
@@ -167,7 +196,7 @@ namespace ProntoMobile.Web.Controllers.API
                         UnidadAb = h.Unidad.Abreviatura,
                         TipoHoraNoProductiva = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Descripcion : ""),
                         TipoHoraNoProductivaAb = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Abreviatura : "")
-                    }).Where(dp => dp.FechaLectura > DateTime.Today.AddYears(-1)).OrderByDescending(dp => dp.FechaLectura).ToList(),
+                    }).Where(dp => dp.FechaLectura > DateTime.Today.AddMonths(-6)).OrderByDescending(dp => dp.FechaLectura).ToList(),
                     Fallas = equipment.Fallas?.Select(h => new FallaResponse
                     {
                         IdFalla = h.IdFalla,
@@ -184,7 +213,24 @@ namespace ProntoMobile.Web.Controllers.API
                         Maquinista = h.Maquinista,
                         Articulo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
                         Reporto = (h.Empleado != null ? h.Empleado.Nombre : "")
-                    }).OrderByDescending(dp => dp.FechaFalla).ToList()
+                    }).OrderByDescending(dp => dp.FechaFalla).ToList(),
+                    DetalleConsumos = equipment.DetalleConsumos?.Select(h => new DetalleConsumoResponse
+                    {
+                        IdDetalleConsumo = h.IdDetalleConsumo,
+                        IdConsumo = h.IdConsumo,
+                        IdArticulo = h.IdArticulo,
+                        IdConsumible = h.IdConsumible,
+                        Cantidad = h.Cantidad,
+                        IdUnidadConsumible = h.IdUnidadConsumible,
+                        Costo = h.Costo,
+                        Observaciones = h.Observaciones,
+                        Equipo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
+                        Consumible = (h.Consumible != null ? h.Consumible.Descripcion : ""),
+                        Unidad = (h.Unidad != null ? h.Unidad.Descripcion : ""),
+                        UnidadAb = (h.Unidad != null ? h.Unidad.Abreviatura : ""),
+                        FechaConsumo = (h.Consumo != null ? h.Consumo.FechaConsumo : DateTime.Today),
+                        Consumo = (h.Consumo != null ? h.Consumo.NumeroConsumo.ToString() : "")
+                    }).Where(dp => dp.FechaConsumo > DateTime.Today.AddMonths(-6)).OrderByDescending(dp => dp.FechaConsumo).ToList(),
                 };
 
                 response.Add(equipmentRespose);
@@ -206,6 +252,12 @@ namespace ProntoMobile.Web.Controllers.API
                                 .Include(a => a.DetallePartesDiarios)
                                 .ThenInclude(t => t.TipoHoraNoProductiva)
                                 .Include(a => a.Fallas)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Consumible)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Unidad)
+                                .Include(a => a.DetalleConsumos)
+                                .ThenInclude(t => t.Consumo)
                                 .Where(a => a.IdArticulo == idRequest.Id).FirstOrDefaultAsync();
 
             var idunidad = equipment.IdUnidadLecturaMantenimiento ?? 0;
@@ -240,7 +292,7 @@ namespace ProntoMobile.Web.Controllers.API
                     UnidadAb = h.Unidad.Abreviatura,
                     TipoHoraNoProductiva = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Descripcion : ""),
                     TipoHoraNoProductivaAb = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Abreviatura : "")
-                }).Where(dp => dp.FechaLectura > DateTime.Today.AddYears(-1)).OrderByDescending(dp => dp.FechaLectura).ToList(),
+                }).Where(dp => dp.FechaLectura > DateTime.Today.AddMonths(-6)).OrderByDescending(dp => dp.FechaLectura).ToList(),
                 Fallas = equipment.Fallas?.Select(h => new FallaResponse
                 {
                     IdFalla = h.IdFalla,
@@ -257,8 +309,24 @@ namespace ProntoMobile.Web.Controllers.API
                     Maquinista = h.Maquinista,
                     Articulo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
                     Reporto = (h.Empleado != null ? h.Empleado.Nombre : "")
-                }).OrderByDescending(dp => dp.FechaFalla).ToList()
-
+                }).OrderByDescending(dp => dp.FechaFalla).ToList(),
+                DetalleConsumos = equipment.DetalleConsumos?.Select(h => new DetalleConsumoResponse
+                {
+                    IdDetalleConsumo = h.IdDetalleConsumo,
+                    IdConsumo = h.IdConsumo,
+                    IdArticulo = h.IdArticulo,
+                    IdConsumible = h.IdConsumible,
+                    Cantidad = h.Cantidad,
+                    IdUnidadConsumible = h.IdUnidadConsumible,
+                    Costo = h.Costo,
+                    Observaciones = h.Observaciones,
+                    Equipo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
+                    Consumible = (h.Consumible != null ? h.Consumible.Descripcion : ""),
+                    Unidad = (h.Unidad != null ? h.Unidad.Descripcion : ""),
+                    UnidadAb = (h.Unidad != null ? h.Unidad.Abreviatura : ""),
+                    FechaConsumo = (h.Consumo != null ? h.Consumo.FechaConsumo : DateTime.Today),
+                    Consumo = (h.Consumo != null ? h.Consumo.NumeroConsumo.ToString() : "")
+                }).Where(dp => dp.FechaConsumo > DateTime.Today.AddMonths(-6)).OrderByDescending(dp => dp.FechaConsumo).ToList(),
             };
 
             return Ok(response);
@@ -272,6 +340,13 @@ namespace ProntoMobile.Web.Controllers.API
                 .ThenInclude(u => u.Unidad)
                 .Include(a => a.DetallePartesDiarios)
                 .ThenInclude(t => t.TipoHoraNoProductiva)
+                .Include(a => a.Fallas)
+                .Include(a => a.DetalleConsumos)
+                .ThenInclude(t => t.Consumible)
+                .Include(a => a.DetalleConsumos)
+                .ThenInclude(t => t.Unidad)
+                .Include(a => a.DetalleConsumos)
+                .ThenInclude(t => t.Consumo)
                 .FirstOrDefaultAsync(o => o.IdArticulo == id);
             if (equipment == null)
             {
@@ -302,7 +377,24 @@ namespace ProntoMobile.Web.Controllers.API
                     UnidadAb = h.Unidad.Abreviatura,
                     TipoHoraNoProductiva = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Descripcion : ""),
                     TipoHoraNoProductivaAb = (h.TipoHoraNoProductiva != null ? h.TipoHoraNoProductiva.Abreviatura : "")
-                }).ToList()
+                }).ToList(),
+                DetalleConsumos = equipment.DetalleConsumos?.Select(h => new DetalleConsumoResponse
+                {
+                    IdDetalleConsumo = h.IdDetalleConsumo,
+                    IdConsumo = h.IdConsumo,
+                    IdArticulo = h.IdArticulo,
+                    IdConsumible = h.IdConsumible,
+                    Cantidad = h.Cantidad,
+                    IdUnidadConsumible = h.IdUnidadConsumible,
+                    Costo = h.Costo,
+                    Observaciones = h.Observaciones,
+                    Equipo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
+                    Consumible = (h.Consumible != null ? h.Consumible.Descripcion : ""),
+                    Unidad = (h.Unidad != null ? h.Unidad.Descripcion : ""),
+                    UnidadAb = (h.Unidad != null ? h.Unidad.Abreviatura : ""),
+                    FechaConsumo = (h.Consumo != null ? h.Consumo.FechaConsumo : DateTime.Today),
+                    Consumo = (h.Consumo != null ? h.Consumo.NumeroConsumo.ToString() : "")
+                }).Where(dp => dp.FechaConsumo > DateTime.Today.AddMonths(-6)).OrderByDescending(dp => dp.FechaConsumo).ToList(),
             };
             return Ok(response);
         }
@@ -315,6 +407,9 @@ namespace ProntoMobile.Web.Controllers.API
             {
                 return BadRequest(ModelState);
             }
+
+            var database = _datacontextbase.Bases.Where(a => a.Descripcion.ToLower().Equals(request.DbName.ToLower())).FirstOrDefault();
+            HttpContext.Session.SetString("String_Mantenimiento", database.StringConection);
 
             var oldEquipment = await _dataContext.Articulos.FindAsync(request.IdArticulo);
             if (oldEquipment == null)

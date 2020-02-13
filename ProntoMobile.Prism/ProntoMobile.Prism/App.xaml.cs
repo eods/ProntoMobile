@@ -7,6 +7,8 @@ using ProntoMobile.Common.Service;
 using ProntoMobile.Prism.ViewModels;
 using ProntoMobile.Prism.Views;
 using System;
+using System.Globalization;
+using System.Threading;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -70,6 +72,9 @@ namespace ProntoMobile.Prism
             containerRegistry.RegisterForNavigation<BasesDatosPage, BasesDatosPageViewModel>();
             containerRegistry.RegisterForNavigation<FallasPage, FallasPageViewModel>();
             containerRegistry.RegisterForNavigation<FallaPage, FallaPageViewModel>();
+            containerRegistry.RegisterForNavigation<ConsumosPage, ConsumosPageViewModel>();
+            containerRegistry.RegisterForNavigation<ConsumoPage, ConsumoPageViewModel>();
+            containerRegistry.RegisterForNavigation<ChartPage, ChartPageViewModel>();
         }
     }
 }

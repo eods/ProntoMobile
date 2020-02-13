@@ -20,5 +20,7 @@ namespace ProntoMobile.Common.Models
         public int IdUnidadLecturaMantenimiento { get; set; }
 
         public byte[] ImageArray { get; set; }
+
+        public string DbName { get; set; }
     }
 }

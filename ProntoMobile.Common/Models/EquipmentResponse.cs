@@ -24,5 +24,7 @@ namespace ProntoMobile.Common.Models
         public ICollection<DetalleParteDiarioResponse> DetallePartesDiarios { get; set; }
 
         public ICollection<FallaResponse> Fallas { get; set; }
+
+        public ICollection<DetalleConsumoResponse> DetalleConsumos { get; set; }
     }
 }

@@ -213,6 +213,7 @@ namespace ProntoMobile.Prism.ViewModels
 
             var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            var dbname = JsonConvert.DeserializeObject<BaseResponse>(Settings.BaseMantenimiento);
 
             byte[] imageArray = null;
             if (_file != null)
@@ -230,6 +231,7 @@ namespace ProntoMobile.Prism.ViewModels
                 IdUnidadLecturaMantenimiento = Equipment.IdUnidadLecturaMantenimiento,
                 //IdObraActual = Equipment.IdObraActual,
                 ImageArray = imageArray,
+                DbName = dbname.Descripcion
             };
 
             Response<object> response;

@@ -8,6 +8,7 @@ using ProntoMobile.Common.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -77,7 +78,6 @@ namespace ProntoMobile.Prism.ViewModels
                 return;
             }
 
-            //var response = await _apiService.GetListAsync<EquipmentResponse>(url, "/api", "/Equipments/GetEquipments2", "bearer", token.Token);
             var response = await _apiService.GetByEmailAsync<EquipmentResponse>(url, "/api", "/Equipments/GetEquipments3", "bearer", token.Token, dbname.Descripcion, user.Email);
             if (!response.IsSuccess)
             {
@@ -99,7 +99,8 @@ namespace ProntoMobile.Prism.ViewModels
                     //IdObraActual = a.IdObraActual,
                     ImageUrl = a.ImageUrl,
                     DetallePartesDiarios = a.DetallePartesDiarios,
-                    Fallas = a.Fallas
+                    Fallas = a.Fallas,
+                    DetalleConsumos = a.DetalleConsumos
                 }).ToList());  //.Where(e => e.Descripcion.ToLower().Contains("a")).ToList());
 
             EquipmentsFull = Equipments;

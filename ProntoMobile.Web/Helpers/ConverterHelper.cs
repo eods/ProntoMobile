@@ -80,5 +80,24 @@ namespace ProntoMobile.Web.Helpers
                 Maquinista = falla.Maquinista
             };
         }
+
+        public DetalleConsumoResponse ToConsumoResponse(DetalleConsumo consumo)
+        {
+            if (consumo == null)
+            {
+                return null;
+            }
+
+            return new DetalleConsumoResponse
+            {
+                IdConsumo = consumo.IdConsumo,
+                IdArticulo = consumo.IdArticulo,
+                IdConsumible = consumo.IdConsumible,
+                Cantidad = consumo.Cantidad,
+                IdUnidadConsumible = consumo.IdUnidadConsumible,
+                Costo = consumo.Costo,
+                Observaciones = consumo.Observaciones
+            };
+        }
     }
 }

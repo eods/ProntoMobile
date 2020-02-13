@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProntoMobile.Web.Data.Entities
 {
@@ -27,6 +28,8 @@ namespace ProntoMobile.Web.Data.Entities
 
         public string ParaMantenimiento { get; set; }
 
+        public string EsConsumible { get; set; }
+
         public string Activo { get; set; }
 
         public int? IdObraActual { get; set; }
@@ -42,5 +45,7 @@ namespace ProntoMobile.Web.Data.Entities
         public ICollection<DetalleParteDiario> DetallePartesDiarios { get; set; }
 
         public ICollection<Falla> Fallas { get; set; }
+
+        public ICollection<DetalleConsumo> DetalleConsumos { get; set; }
     }
 }

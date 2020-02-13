@@ -11,6 +11,7 @@
         <local:EquipmentPage/>
         <local:PartesDiariosPage />
         <local:FallasPage />
+        <local:ConsumosPage />
     </TabbedPage.Children>
 
 </TabbedPage>

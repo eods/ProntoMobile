@@ -2,26 +2,53 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:sfGrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="ProntoMobile.Prism.Views.PartesDiariosPage"
+             x:Class="ProntoMobile.Prism.Views.ConsumosPage"
              BackgroundColor="Silver"
              Icon="ic_list.png"
             Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="ic_action_bar_chart.png" Command="{Binding ChartCommand}"/>
-        <ToolbarItem Icon="ic_action_add_circle" Command="{Binding AddParteDiarioCommand}"/>
+        <ToolbarItem Icon="ic_action_add_circle" Command="{Binding AddConsumoCommand}"/>
     </ContentPage.ToolbarItems>
 
-    <StackLayout
+    <ContentPage.Content>
+        <sfGrid:SfDataGrid x:Name="dataGrid"
+                           AllowEditing="True"
+                           AllowSorting="True"
+                           AllowDeleting="True"
+                           AllowDraggingColumn="True"
+                           AllowLoadMore="True"
+                           AllowResizingColumn="True"
+                           SelectionMode="Single"    
+                           NavigationMode="Cell" 
+                           ColumnSizer="Star"
+                           AutoGenerateColumns="False"
+                           EditTapAction="OnTap"
+                           EditorSelectionBehavior="SelectAll"
+                           GridTappedCommand="{Binding TappedCommandAction}"
+                           ItemsSource="{Binding Consumos}">
+            <sfGrid:SfDataGrid.Behaviors>
+                <prism:EventToCommandBehavior EventName="ValueChanged" EventArgsConverterParameter="Value" Command="{Binding CellChangedCommand2}"/>
+                <prism:EventToCommandBehavior EventName="SelectionChanged" EventArgsConverterParameter="Value" Command="{Binding SelectionCommand}"/>
+            </sfGrid:SfDataGrid.Behaviors>
+            <sfGrid:SfDataGrid.Columns>
+                    <sfGrid:GridTextColumn MappingName="FechaConsumo" HeaderText="Fecha" Width="80"  Format="dd/MM/yyyy" AllowEditing="false"/>
+                    <sfGrid:GridTextColumn MappingName="Consumible" Width="150" TextAlignment="Start" AllowEditing="false"/>
+                <sfGrid:GridNumericColumn HeaderText="Cantidad" MappingName="Cantidad" Width="80" Format="N" TextAlignment="End" AllowEditing="True"/>
+                    <sfGrid:GridTextColumn MappingName="UnidadAb" HeaderText="Un." Width="50" AllowEditing="false"/>
+            </sfGrid:SfDataGrid.Columns>
+        </sfGrid:SfDataGrid>
+    </ContentPage.Content>
+    
+    <!--<StackLayout
     	Padding="10">
         <Grid
             Margin="20,0,10,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -38,34 +65,24 @@
             <Label
             	Grid.Column="1"
             	FontAttributes="Bold"
-            	Text="Lectura"
+            	Text="Consumible"
             	VerticalOptions="Center"/>
             <Label
             	Grid.Column="2"
             	FontAttributes="Bold"
-            	Text="Un"
+            	Text="Cant."
             	VerticalOptions="Center"/>
             <Label
             	Grid.Column="3"
             	FontAttributes="Bold"
-            	Text="Hs. Prd."
-            	VerticalOptions="Center"/>
-            <Label
-            	Grid.Column="4"
-            	FontAttributes="Bold"
-            	Text="Hs. N/P."
-            	VerticalOptions="Center"/>
-            <Label
-            	Grid.Column="5"
-            	FontAttributes="Bold"
-            	Text="Tipo"
+            	Text="Un"
             	VerticalOptions="Center"/>
         </Grid>
         <ListView
         	HasUnevenRows="True"
-	        RefreshCommand="{Binding RefreshPartesDiariosCommand}"
+	        RefreshCommand="{Binding RefreshConsumosCommand}"
 	        IsRefreshing="{Binding IsRefreshing}"
-        	ItemsSource="{Binding PartesDiarios}">
+        	ItemsSource="{Binding Consumos}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -74,15 +91,13 @@
                         	HasShadow="True"
                         	Margin="0,0,0,5">
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectParteDiarioCommand}"/>
+                                <TapGestureRecognizer Command="{Binding SelectConsumoCommand}"/>
                             </Frame.GestureRecognizers>
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
@@ -93,27 +108,19 @@
 
                                 <Label
                                 	Grid.Column="0"
-                            	    Text="{Binding FechaLectura, StringFormat='{0:yyyy/MM/dd}'}"
+                            	    Text="{Binding FechaConsumo, StringFormat='{0:yyyy/MM/dd}'}"
                             	    VerticalOptions="Center"/>
                                 <Label
                             	    Grid.Column="1"
-                            	    Text="{Binding Lectura}"
+                            	    Text="{Binding Consumible}"
                             	    VerticalOptions="Center"/>
                                 <Label
                             	    Grid.Column="2"
-                            	    Text="{Binding UnidadAb}"
+                            	    Text="{Binding Cantidad, StringFormat='{0:0.0#}'}"
                             	    VerticalOptions="Center"/>
                                 <Label
                             	    Grid.Column="3"
-                            	    Text="{Binding HorasProductivas, StringFormat='{0:0.0#}'}"
-                            	    VerticalOptions="Center"/>
-                                <Label
-                            	    Grid.Column="4"
-                            	    Text="{Binding HorasNoProductivas, StringFormat='{0:0.0#}'}"
-                            	    VerticalOptions="Center"/>
-                                <Label
-                            	    Grid.Column="5"
-                            	    Text="{Binding TipoHoraNoProductivaAb}"
+                            	    Text="{Binding UnidadAb}"
                             	    VerticalOptions="Center"/>
                             </Grid>
                         </Frame>
@@ -121,6 +128,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </StackLayout>
+    </StackLayout>-->
 
 </ContentPage>

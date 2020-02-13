@@ -30,9 +30,9 @@ namespace ProntoMobile.Prism.ViewModels
             IsEnabled = true;
             IsRemember = true;
 
-            //TODO:
-            Email = "pronto@yopmail.com";
-            Password = "123456";
+            ////TODO:
+            //Email = "pronto@yopmail.com";
+            //Password = "123456";
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));

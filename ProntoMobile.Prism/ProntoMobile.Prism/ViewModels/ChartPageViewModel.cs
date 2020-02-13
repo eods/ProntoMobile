@@ -1,53 +1,30 @@
 ﻿using Newtonsoft.Json;
-using Prism.Commands;
 using Prism.Navigation;
 using ProntoMobile.Common.Helpers;
 using ProntoMobile.Common.Models;
 using ProntoMobile.Common.Service;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProntoMobile.Prism.ViewModels
 {
-    public class PartesDiariosPageViewModel : ViewModelBase
+    public class ChartPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
+        private EquipmentResponse _equipment;
         private ObservableCollection<PartesDiariosItemViewModel> _partesDiarios;
         private bool _isRefreshing;
-        private EquipmentResponse _equipment;
-        private DelegateCommand _addParteDiarioCommand;
-        private DelegateCommand _refreshPartesDiariosCommand;
-        private DelegateCommand _chartCommand;
-        private static PartesDiariosPageViewModel _instance;
 
-        public PartesDiariosPageViewModel(
+        public ChartPageViewModel(
             INavigationService navigationService,
             IApiService apiService) : base(navigationService)
         {
-            _instance = this;
             _navigationService = navigationService;
             _apiService = apiService;
-            Title = "Partes";
+            Title = "Grafico";
             Equipment = JsonConvert.DeserializeObject<EquipmentResponse>(Settings.Equipment);
             LoadPartesDiarios();
-        }
-
-        public DelegateCommand AddParteDiarioCommand => _addParteDiarioCommand ?? (_addParteDiarioCommand = new DelegateCommand(AddParteDiario));
-
-        public DelegateCommand RefreshPartesDiariosCommand => _refreshPartesDiariosCommand ?? (_refreshPartesDiariosCommand = new DelegateCommand(RefreshPartesDiarios));
-
-        public DelegateCommand ChartCommand => _chartCommand ?? (_chartCommand = new DelegateCommand(Chart));
-
-        private async void AddParteDiario()
-        {
-            await _navigationService.NavigateAsync("ParteDiarioPage");
-        }
-
-        private async void Chart()
-        {
-            await _navigationService.NavigateAsync("ChartPage");
         }
 
         public EquipmentResponse Equipment
@@ -62,44 +39,10 @@ namespace ProntoMobile.Prism.ViewModels
             set => SetProperty(ref _partesDiarios, value);
         }
 
-        public static PartesDiariosPageViewModel GetInstance()
-        {
-            return _instance;
-        }
-
         public bool IsRefreshing
         {
             get => _isRefreshing;
             set => SetProperty(ref _isRefreshing, value);
-        }
-
-        public async Task UpdatePartesDiariosAsync()
-        {
-            var url = App.Current.Resources["UrlAPI"].ToString();
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-
-            var response = await _apiService.GetByIdAsync<EquipmentResponse>(
-                url,
-                "/api",
-                "/Equipments",
-                "bearer",
-                token.Token,
-                _equipment.IdArticulo);
-
-            if (response.IsSuccess)
-            {
-                var equipment = (EquipmentResponse)response.Result;
-                Settings.Equipment = JsonConvert.SerializeObject(equipment);
-                _equipment = equipment;
-                LoadPartesDiarios();
-            }
-        }
-
-        private async void RefreshPartesDiarios()
-        {
-            IsRefreshing = true;
-            await UpdatePartesDiariosAsync();
-            IsRefreshing = false;
         }
 
         private void LoadPartesDiarios()
@@ -121,9 +64,11 @@ namespace ProntoMobile.Prism.ViewModels
                 UnidadAb = h.UnidadAb,
                 TipoHoraNoProductiva = h.TipoHoraNoProductiva,
                 TipoHoraNoProductivaAb = h.TipoHoraNoProductivaAb
-            }).OrderByDescending(pd => pd.FechaLectura).ToList());
+            }).Where(pd => pd.HorasProductivas != 0)
+              .OrderByDescending(pd => pd.FechaLectura).ToList());
 
             IsRefreshing = false;
         }
+
     }
 }

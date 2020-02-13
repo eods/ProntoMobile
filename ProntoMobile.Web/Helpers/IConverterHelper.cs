@@ -10,6 +10,8 @@ namespace ProntoMobile.Web.Helpers
         DetalleParteDiarioResponse ToDetalleParteDiarioResponse(DetalleParteDiario detalleParteDiario);
 
         FallaResponse ToFallaResponse(Falla falla);
+
+        DetalleConsumoResponse ToConsumoResponse(DetalleConsumo consumo);
     }
 
 }

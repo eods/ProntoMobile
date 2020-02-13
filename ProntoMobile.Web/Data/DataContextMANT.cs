@@ -36,5 +36,9 @@ namespace ProntoMobile.Web.Data
         public DbSet<Falla> Fallas { get; set; }
 
         public DbSet<Obra> Obras { get; set; }
+
+        public DbSet<Consumo> Consumos { get; set; }
+
+        public DbSet<DetalleConsumo> DetalleConsumos { get; set; }
     }
 }

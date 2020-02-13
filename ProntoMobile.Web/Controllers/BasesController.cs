@@ -40,6 +40,7 @@ namespace ProntoMobile.Web.Controllers
 
             //var a2 = _httpContextAccessor.HttpContext.Session.GetString("Test");
 
+
             //var database = _context.Bases.Where(a => a.Descripcion.ToLower().Equals("marcalba - mantenimiento")).FirstOrDefault();
             //HttpContext.Session.SetString("String_Mantenimiento", database.StringConection);
 
@@ -52,6 +53,12 @@ namespace ProntoMobile.Web.Controllers
             //                    .Include(a => a.DetallePartesDiarios)
             //                    .ThenInclude(t => t.TipoHoraNoProductiva)
             //                    .Include(a => a.Fallas)
+            //                    .Include(a => a.DetalleConsumos)
+            //                    .ThenInclude(t => t.Consumible)
+            //                    .Include(a => a.DetalleConsumos)
+            //                    .ThenInclude(t => t.Unidad)
+            //                    .Include(a => a.DetalleConsumos)
+            //                    .ThenInclude(t => t.Consumo)
             //                    .Where(a => (a.ParaMantenimiento ?? "") == "SI" && (a.Activo ?? "") == "SI" && (idObraAsignada <= 0 || (a.IdObraActual ?? 0) == idObraAsignada))
             //                    .OrderBy(a => a.Descripcion).ToListAsync();
 
@@ -101,17 +108,34 @@ namespace ProntoMobile.Web.Controllers
             //            Observaciones = h.Observaciones,
             //            IdOrdenTrabajo = h.IdOrdenTrabajo ?? 0,
             //            NumeroFalla = h.NumeroFalla ?? 0,
-            //            FechaAlta = (h.FechaAlta != null ? h.FechaAlta : DateTime.Today),
+            //            FechaAlta = (h.FechaAlta != null ? h.FechaAlta : (h.FechaFalla != null ? h.FechaFalla : DateTime.Today)),
             //            IdObra = h.IdObra ?? 0,
             //            IdReporto = h.IdReporto ?? 0,
             //            Maquinista = h.Maquinista,
             //            Articulo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
             //            Reporto = (h.Empleado != null ? h.Empleado.Nombre : "")
-            //        }).ToList()
+            //        }).OrderByDescending(dp => dp.FechaFalla).ToList(),
+            //        DetalleConsumos = equipment.DetalleConsumos?.Select(h => new DetalleConsumoResponse
+            //        {
+            //            IdDetalleConsumo = h.IdDetalleConsumo,
+            //            IdConsumo = h.IdConsumo,
+            //            IdArticulo = h.IdArticulo,
+            //            IdConsumible = h.IdConsumible,
+            //            Cantidad = h.Cantidad,
+            //            IdUnidadConsumible = h.IdUnidadConsumible,
+            //            Costo = h.Costo,
+            //            Observaciones = h.Observaciones,
+            //            Equipo = (h.Articulo != null ? h.Articulo.Descripcion : ""),
+            //            Consumible = (h.Consumible != null ? h.Consumible.Descripcion : ""),
+            //            Unidad = (h.Unidad != null ? h.Unidad.Descripcion : ""),
+            //            UnidadAb = (h.Unidad != null ? h.Unidad.Abreviatura : ""),
+            //            FechaConsumo = (h.Consumo != null ? h.Consumo.FechaConsumo : DateTime.Today),
+            //            Consumo = (h.Consumo != null ? h.Consumo.NumeroConsumo.ToString() : "")
+            //        }).Where(dp => dp.FechaConsumo > DateTime.Today.AddYears(-1)).OrderByDescending(dp => dp.FechaConsumo).ToList(),
             //    };
-
             //    response.Add(equipmentRespose);
-            //}
+            //};
+
 
             //var a = _context2.TiposHorasNoProductivas.OrderBy(u => u.Descripcion);
 
