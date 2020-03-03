@@ -8,10 +8,17 @@
              Title="{Binding Title}">
 
     <StackLayout>
-        <maps:Map
-        	x:Name="MyMap"
-            IsShowingUser="True"
-        	MapType="Street"/>
+        <maps:Map x:Name="MyMap"
+                  IsShowingUser="True"
+                  MapType="Street"/>
+        <StackLayout Padding="5">
+            <Button BackgroundColor="Green"
+                    CornerRadius="20"
+                    HeightRequest="40"
+                    Margin="10,0"
+                    Text="Comenzar viaje"
+                    TextColor="White"/>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>

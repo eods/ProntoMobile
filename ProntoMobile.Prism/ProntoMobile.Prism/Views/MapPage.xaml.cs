@@ -1,7 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using ProntoMobile.Common.Helpers;
 using ProntoMobile.Common.Models;
 using ProntoMobile.Common.Service;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -19,14 +22,20 @@ namespace ProntoMobile.Prism.Views
             InitializeComponent();
             _geolocatorService = geolocatorService;
             _apiService = apiService;
+            //MoveMapToCurrentPositionAsync();
+            //ShowOwnersAsync();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
             MoveMapToCurrentPositionAsync();
-            ShowOwnersAsync();
         }
 
         private async void ShowOwnersAsync()
         {
-            var url = App.Current.Resources["UrlAPI"].ToString();
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            string url = App.Current.Resources["UrlAPI"].ToString();
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
             //var response = await _apiService.GetListAsync<OwnerResponse>(url, "api", "/Owners", "bearer", token.Token);
 
@@ -50,18 +59,62 @@ namespace ProntoMobile.Prism.Views
             //}
         }
 
+        //private async void MoveMapToCurrentPositionAsync()
+        //{
+        //    await _geolocatorService.GetLocationAsync();
+        //    if (_geolocatorService.Latitude != 0 && _geolocatorService.Longitude != 0)
+        //    {
+        //        var position = new Position(
+        //            _geolocatorService.Latitude,
+        //            _geolocatorService.Longitude);
+        //        MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
+        //            position,
+        //            Distance.FromKilometers(.5)));
+        //    }
+        //}
+
         private async void MoveMapToCurrentPositionAsync()
         {
-            await _geolocatorService.GetLocationAsync();
-            if (_geolocatorService.Latitude != 0 && _geolocatorService.Longitude != 0)
+            bool isLocationPermision = await CheckLocationPermisionsAsync();
+
+            if (isLocationPermision)
             {
-                var position = new Position(
-                    _geolocatorService.Latitude,
-                    _geolocatorService.Longitude);
-                MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
-                    position,
-                    Distance.FromKilometers(.5)));
+                MyMap.IsShowingUser = true;
+
+                await _geolocatorService.GetLocationAsync();
+                if (_geolocatorService.Latitude != 0 && _geolocatorService.Longitude != 0)
+                {
+                    Position position = new Position(
+                        _geolocatorService.Latitude,
+                        _geolocatorService.Longitude);
+                    MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
+                        position,
+                        Distance.FromKilometers(.5)));
+                }
             }
+        }
+
+        private async Task<bool> CheckLocationPermisionsAsync()
+        {
+            PermissionStatus permissionLocation = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            PermissionStatus permissionLocationAlways = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationAlways);
+            PermissionStatus permissionLocationWhenInUse = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationWhenInUse);
+            bool isLocationEnabled = permissionLocation == PermissionStatus.Granted ||
+                                     permissionLocationAlways == PermissionStatus.Granted ||
+                                     permissionLocationWhenInUse == PermissionStatus.Granted;
+            if (isLocationEnabled)
+            {
+                return true;
+            }
+
+            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+
+            permissionLocation = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            permissionLocationAlways = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationAlways);
+            permissionLocationWhenInUse = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationWhenInUse);
+            return permissionLocation == PermissionStatus.Granted ||
+                   permissionLocationAlways == PermissionStatus.Granted ||
+                   permissionLocationWhenInUse == PermissionStatus.Granted;
         }
 
     }

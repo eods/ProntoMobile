@@ -34,10 +34,10 @@
                 <prism:EventToCommandBehavior EventName="SelectionChanged" EventArgsConverterParameter="Value" Command="{Binding SelectionCommand}"/>
             </sfGrid:SfDataGrid.Behaviors>
             <sfGrid:SfDataGrid.Columns>
-                    <sfGrid:GridTextColumn MappingName="FechaConsumo" HeaderText="Fecha" Width="80"  Format="dd/MM/yyyy" AllowEditing="false"/>
-                    <sfGrid:GridTextColumn MappingName="Consumible" Width="150" TextAlignment="Start" AllowEditing="false"/>
+                <sfGrid:GridTextColumn MappingName="FechaConsumo" HeaderText="Fecha" Width="80"  Format="dd/MM/yyyy" AllowEditing="false"/>
+                <sfGrid:GridTextColumn MappingName="Consumible" Width="150" TextAlignment="Start" AllowEditing="false"/>
                 <sfGrid:GridNumericColumn HeaderText="Cantidad" MappingName="Cantidad" Width="80" Format="N" TextAlignment="End" AllowEditing="True"/>
-                    <sfGrid:GridTextColumn MappingName="UnidadAb" HeaderText="Un." Width="50" AllowEditing="false"/>
+                <sfGrid:GridTextColumn MappingName="UnidadAb" HeaderText="Un." Width="50" AllowEditing="false"/>
             </sfGrid:SfDataGrid.Columns>
         </sfGrid:SfDataGrid>
     </ContentPage.Content>
